@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E5A4F">
+<title>Zann Qur'an</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F6F2; --card:#FFFFFF; --ink:#18221F; --muted:#5B6B66; --line:#DCE3DE;
+  --green:#0E5A4F; --green-d:#0A4239; --soft:#E4EEE9; --gold:#B97F14; --bad:#B3261E; --ok:#1B7F4B;
+  --arsize:34px; --hh:54px;
+  --ui:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --ar:'Amiri Quran','Scheherazade New','Noto Naskh Arabic','Traditional Arabic',serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.55}
+a{color:inherit}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 64px}
+.muted{color:var(--muted)}
+.top{position:sticky;top:0;z-index:20;height:var(--hh);background:var(--green);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.brand{font-weight:800;font-size:20px;letter-spacing:.2px;text-decoration:none}
+.top .link{font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,.45);padding:6px 12px;border-radius:999px}
+.search{width:100%;padding:13px 16px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);margin:6px 0 14px}
+.last{display:block;text-decoration:none;background:var(--green);color:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px}
+.last small{display:block;opacity:.8}
+.last b{font-size:18px}
+.list{display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.row .no{width:38px;height:38px;border-radius:50%;background:var(--soft);color:var(--green);display:grid;place-items:center;font-weight:700;font-size:14px}
+.row .nm{font-weight:700}
+.row .sub{font-size:13px;color:var(--muted)}
+.row .arn{font-family:var(--ar);font-size:24px;color:var(--green);line-height:1.4}
+.hero{text-align:center;padding:10px 0 6px}
+.hero .arn{font-family:var(--ar);font-size:44px;color:var(--green);line-height:1.5}
+.hero h1{margin:0;font-size:22px}
+.hero p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.tools{position:sticky;top:var(--hh);z-index:15;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip,.btn{border:1.5px solid var(--green);background:transparent;color:var(--green);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--green);color:#fff}
+.btn.pri{background:var(--green);color:#fff}
+.btn:disabled{opacity:.5}
+.sz{display:flex;gap:6px;margin-left:auto}
+.sz .chip{padding:7px 12px}
+.hpanel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;display:grid;gap:10px}
+.hpanel[hidden]{display:none}
+.hpanel select{padding:6px 8px;border:1.5px solid var(--line);border-radius:8px;background:#fff}
+.hpanel label{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.bism{font-family:var(--ar);text-align:center;font-size:calc(var(--arsize) + 2px);color:var(--green);margin:18px 0 4px;line-height:2}
+.ayat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:12px;scroll-margin-top:130px}
+.ayat.playing{border-color:var(--gold);box-shadow:0 0 0 3px rgba(185,127,20,.25)}
+.meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.num{min-width:34px;height:34px;border-radius:50%;background:var(--soft);color:var(--green);display:grid;place-items:center;font-weight:700;font-size:14px}
+.ib{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer}
+.ib:first-of-type{margin-left:auto}
+.ar{font-family:var(--ar);font-size:var(--arsize);line-height:2.25;direction:rtl;text-align:right;word-spacing:2px}
+.ar .end{color:var(--gold);font-size:.7em;margin-inline-end:4px}
+.lat{margin:8px 0 0;font-size:17px;line-height:1.7;letter-spacing:.2px;color:#2B3A36}
+.tr{margin:6px 0 0;font-size:15px;color:var(--muted);line-height:1.65}
+.hide-lat .lat{display:none}
+.hide-tr .tr{display:none}
+.hide-ar .ar{filter:blur(9px);cursor:pointer;user-select:none}
+.hide-ar .ayat.reveal .ar{filter:none}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.nav a{flex:1;text-align:center;text-decoration:none;border:1.5px solid var(--green);color:var(--green);border-radius:14px;padding:12px;font-weight:600}
+.nav a.off{visibility:hidden}
+/* tajwid */
+.tj{color:var(--c)}
+.notj .tj{color:inherit}
+.tj-ham_wasl,.tj-slnt,.tj-laam_shamsiyah{--c:#8E9794}
+.tj-madda_normal{--c:#537FFF}
+.tj-madda_permissible{--c:#4050FF}
+.tj-madda_necessary{--c:#000EBC}
+.tj-madda_obligatory{--c:#2144C1}
+.tj-qalaqah{--c:#DD0008}
+.tj-ikhfa_shafawi{--c:#D500B7}
+.tj-ikhfa{--c:#9400A8}
+.tj-idgham_shafawi{--c:#58B800}
+.tj-iqlab{--c:#26BFFD}
+.tj-idgham_ghunnah{--c:#169777}
+.tj-idgham_wo_ghunnah{--c:#169200}
+.tj-idgham_mutajanisayn,.tj-idgham_mutaqaribayn{--c:#A1A1A1}
+.tj-ghunnah{--c:#FF7E1E}
+.tj{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.notj .tj{cursor:auto}
+#tjpop{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;justify-content:center;pointer-events:none}
+#tjpop .card{pointer-events:auto;background:var(--card);width:100%;max-width:720px;border-radius:20px 20px 0 0;padding:14px 18px 22px;box-shadow:0 -6px 24px rgba(10,20,18,.28);border-top:5px solid var(--c)}
+#tjpop .ph{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#tjpop .ph b{font-size:18px}
+#tjpop .pa{font-size:36px;line-height:2;text-align:center}
+#tjpop p{margin:4px 0;font-size:15px}
+.hint{margin:8px 0 0;font-size:13px}
+/* panduan */
+.legend{display:grid;gap:8px;margin:12px 0 22px}
+.lg{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.lg .ar{font-size:30px;line-height:1.6;text-align:center}
+.lg b{display:block}
+.lg span{font-size:14px;color:var(--muted)}
+.guide h2{font-size:19px;margin:26px 0 6px;color:var(--green)}
+.guide h3{font-size:16px;margin:14px 0 2px}
+.guide p{margin:4px 0}
+.guide ul{margin:4px 0 4px 18px;padding:0}
+.guide li{margin:3px 0}
+.guide .hr{font-family:var(--ar);font-size:22px;letter-spacing:2px}
+.note{background:var(--soft);border-radius:12px;padding:10px 14px;font-size:14px}
+/* modal & toast */
+.modal{position:fixed;inset:0;background:rgba(10,20,18,.55);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--paper);width:100%;max-width:720px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}
+.qhead{display:flex;justify-content:space-between;margin-bottom:6px}
+.qar{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 12px;font-size:28px}
+.opts{display:grid;gap:8px;margin:10px 0}
+.opt{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.opt .ar{font-size:24px;line-height:2}
+.opt .lat{font-size:14px;margin:0}
+.opt.ok{border-color:var(--ok);background:#E6F4EC}
+.opt.bad{border-color:var(--bad);background:#FBE9E7}
+.qfoot{display:flex;justify-content:space-between;gap:8px}
+.qfoot [hidden]{display:none}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#16211E;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+.err{background:#FBE9E7;border:1px solid #E8B4AE;border-radius:12px;padding:14px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+:root{--hh:calc(54px + env(safe-area-inset-top,0px));--grad:linear-gradient(135deg,#0A4239,#0E5A4F 60%,#157566)}
+[data-theme=sepia]{--paper:#F3E9D2;--card:#FBF4E4;--ink:#3A2E1C;--muted:#6E5E45;--line:#E0D2B2;--soft:#EADFC2;--green:#6B4A1B;--green-d:#4E3510;--gold:#9A6A00}
+[data-theme=dark]{--paper:#0E1614;--card:#16211E;--ink:#E6EFEA;--muted:#9DB0A9;--line:#26372F;--soft:#1E2E28;--green:#2FA58F;--green-d:#177363;--gold:#E0A83A;color-scheme:dark}
+[data-theme=dark] .tj-madda_necessary{--c:#7B8CFF}[data-theme=dark] .tj-madda_obligatory{--c:#7C97FF}[data-theme=dark] .tj-madda_permissible{--c:#98A2FF}[data-theme=dark] .tj-ikhfa{--c:#D26BE6}[data-theme=dark] .tj-qalaqah{--c:#FF5A60}
+body{padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}
+.top{background:linear-gradient(135deg,var(--green-d),var(--green));height:var(--hh);padding-top:env(safe-area-inset-top,0px)}
+.wrap{padding-bottom:40px}
+.lat{color:var(--ink)}.ib,.hpanel select{background:var(--card)}
+#toast{bottom:90px}
+#tab{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+#tab a,#tab button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;padding:2px 0}
+#tab span{font-size:20px;line-height:1}
+#tab .on{color:var(--green)}
+.heroc{color:#fff;border-radius:20px;padding:20px 18px;margin-bottom:12px;text-align:center;background:radial-gradient(circle at 88% 8%,rgba(255,255,255,.16) 0 64px,transparent 65px),radial-gradient(circle at 8% 100%,rgba(185,127,20,.4) 0 90px,transparent 91px),var(--grad)}
+.heroc .sal{font-family:var(--ar);font-size:34px;line-height:1.8}
+.heroc p{margin:0;opacity:.9;font-size:14px}
+.row .no{position:relative;background:none;border-radius:0;z-index:0}
+.row .no::before,.row .no::after{content:"";position:absolute;inset:6px;background:var(--soft);border:1.5px solid var(--green);border-radius:4px;z-index:-1}
+.row .no::after{transform:rotate(45deg)}
+.lgp{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+.lgc{flex:none;display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.lgc i{width:11px;height:11px;border-radius:50%;background:var(--c)}
+.lgc small{color:var(--muted)}
+.lgc.on{border-color:var(--c);box-shadow:inset 0 0 0 1.5px var(--c)}
+.tj.off{color:inherit}
+.mk{background:var(--gold);color:#fff;border-radius:6px;padding:0 3px}
+#fb{margin:8px 0;font-size:14px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav id="tab"><a href="#/"><span>🏠</span>Beranda</a><a href="#/tajwid"><span>📖</span>Tajwid</a><a href="#/latihan"><span>🎯</span>Latihan</a><a href="#/tanda"><span>🔖</span>Tanda</a><button id="theme"><span>🌓</span>Tema</button></nav>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript>Aktifkan JavaScript untuk memakai Zann Qur'an.</noscript>
+<script>
+(function(){
+'use strict';
+
+/* ---------- util ---------- */
+const $ = (s, el) => (el || document).querySelector(s);
+const app = $('#app');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const arNum = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('zq:' + k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('zq:' + k, JSON.stringify(v)); } catch(e){} }
+};
+let toastTimer;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600); }
+
+const state = { settings: Object.assign({ tajwid:true, latin:true, terjemah:true, size:34 }, store.get('settings', {})) };
+
+/* ---------- tema ---------- */
+const THEMES=['light','sepia','dark'], THN={light:'Terang',sepia:'Sepia',dark:'Gelap'};
+function setTheme(t){document.documentElement.dataset.theme=t;store.set('theme',t);const m=$('meta[name=theme-color]');if(m)m.content=t==='dark'?'#0E1614':'#0E5A4F';}
+setTheme(store.get('theme','light'));
+$('#theme').onclick=()=>{const t=THEMES[(THEMES.indexOf(document.documentElement.dataset.theme)+1)%3];setTheme(t);toast('Tema: '+THN[t]);};
+
+/* ---------- data ---------- */
+async function getJSON(url){ const r = await fetch(url); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }
+
+async function loadList(){
+  const c = store.get('list'); if (c) return c;
+  const j = await getJSON('https://equran.id/api/v2/surat');
+  store.set('list', j.data); return j.data;
+}
+
+async function loadSurah(n){
+  const c = store.get('s' + n); if (c) return c;
+  const [a, t] = await Promise.all([
+    getJSON('https://equran.id/api/v2/surat/' + n),
+    getJSON('https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?chapter_number=' + n).catch(() => null)
+  ]);
+  const d = a.data;
+  const tv = (t && t.verses) ? t.verses : [];
+  const out = {
+    nomor: d.nomor, namaLatin: d.namaLatin, nama: d.nama, arti: d.arti,
+    jumlahAyat: d.jumlahAyat, tempatTurun: d.tempatTurun,
+    ayat: d.ayat.map((x, i) => ({
+      n: x.nomorAyat, ar: x.teksArab, lat: x.teksLatin, id: x.teksIndonesia,
+      au: (x.audio && (x.audio['05'] || Object.values(x.audio)[0])) || '',
+      tj: (tv[i] && tv[i].text_uthmani_tajweed) || ''
+    }))
+  };
+  if (tv.length === out.ayat.length) store.set('s' + n, out);
+  return out;
+}
+
+/* ---------- tajwid markup (disaring: hanya span aman) ---------- */
+function tajwidHTML(raw){
+  const s = String(raw)
+    .replace(/<tajweed class=([a-z_]+)>/g, '<span class="tj tj-$1">')
+    .replace(/<\/tajweed>/g, '</span>')
+    .replace(/<span class=end>/g, '<span class="end">');
+  return s.split(/(<[^>]*>)/).map(p => {
+    if (p.charAt(0) !== '<') return esc(p);
+    return /^<\/span>$|^<span class="(tj tj-[a-z_]+|end)">$/.test(p) ? p : '';
+  }).join('');
+}
+
+/* ---------- legenda tajwid ---------- */
+const LEG = [
+  ['madda_normal','Mad Thabi\u2019i','Dibaca panjang 2 harakat.'],
+  ['madda_permissible','Mad Jaiz (Munfashil / \u2018Aridh Lissukun)','Boleh 2, 4, atau 6 harakat (Munfashil: 2, 4, atau 5).'],
+  ['madda_obligatory','Mad Wajib Muttashil','Wajib dibaca panjang 4\u20135 harakat.'],
+  ['madda_necessary','Mad Lazim','Dibaca panjang 6 harakat.'],
+  ['ghunnah','Ghunnah','Nun atau mim bertasydid; didengungkan sekitar 2 harakat.'],
+  ['ikhfa','Ikhfa Haqiqi','Nun sukun/tanwin dibaca samar dengan dengung.'],
+  ['ikhfa_shafawi','Ikhfa Syafawi','Mim sukun bertemu ba; dibaca samar dengan dengung.'],
+  ['iqlab','Iqlab','Nun sukun/tanwin bertemu ba; bunyi menjadi mim dan didengungkan.'],
+  ['idgham_ghunnah','Idgham Bighunnah','Nun sukun/tanwin melebur ke ya, nun, mim, wau; ada dengung.'],
+  ['idgham_wo_ghunnah','Idgham Bilaghunnah','Nun sukun/tanwin melebur ke lam atau ra; tanpa dengung.'],
+  ['idgham_shafawi','Idgham Mimi (Mitslain Syafawi)','Mim sukun bertemu mim; dilebur dengan dengung.'],
+  ['idgham_mutajanisayn','Idgham Mutajanisain','Dua huruf satu makhraj, sifat berbeda; huruf pertama sukun dilebur.'],
+  ['idgham_mutaqaribayn','Idgham Mutaqaribain','Dua huruf makhrajnya berdekatan; huruf pertama sukun dilebur.'],
+  ['qalaqah','Qalqalah','Huruf ق ط ب ج د sukun; dipantulkan.'],
+  ['laam_shamsiyah','Lam Syamsiyah','Lam pada \u201Cal\u201D tidak dibaca; huruf sesudahnya ditasydid.'],
+  ['ham_wasl','Hamzah Wasal','Dibaca hanya saat memulai bacaan; hilang saat disambung.'],
+  ['slnt','Huruf tidak dibaca','Ditulis tetapi tidak dilafalkan.']
+];
+
+/* ---------- detail hukum tajwid (ketuk huruf berwarna) ---------- */
+const DET = {
+  madda_normal:['Mad Thabi\u2019i','Huruf mad (alif, wau sukun setelah dhammah, ya sukun setelah kasrah) tanpa hamzah atau sukun sesudahnya.','Dibaca panjang 2 harakat (sekitar 1 alif).'],
+  madda_permissible:['Mad Jaiz','Mad Munfashil (mad bertemu hamzah di kata berikutnya) atau mad \u2018Aridh Lissukun (mad sebelum huruf akhir yang disukunkan saat berhenti).','Munfashil: 2, 4, atau 5 harakat. \u2018Aridh Lissukun: 2, 4, atau 6 harakat. Pilih satu panjang dan konsisten.'],
+  madda_obligatory:['Mad Wajib Muttashil','Mad thabi\u2019i bertemu hamzah dalam satu kata.','Wajib dibaca panjang 4\u20135 harakat.'],
+  madda_necessary:['Mad Lazim','Huruf mad bertemu sukun asli atau tasydid dalam satu kata, atau pada huruf pembuka surah (seperti الم).','Dibaca panjang 6 harakat.'],
+  qalaqah:['Qalqalah','Huruf ق ط ب ج د yang sukun, baik asli maupun karena berhenti.','Dibunyikan memantul. Lebih kuat jika di akhir kata saat berhenti (kubra).'],
+  ikhfa:['Ikhfa Haqiqi','Nun sukun atau tanwin bertemu salah satu dari 15 huruf ikhfa.','Dibaca samar (antara idzhar dan idgham) dengan dengung sekitar 2 harakat.'],
+  ikhfa_shafawi:['Ikhfa Syafawi','Mim sukun bertemu huruf ba.','Bibir dirapatkan ringan, dibaca samar dengan dengung sekitar 2 harakat.'],
+  iqlab:['Iqlab','Nun sukun atau tanwin bertemu huruf ba.','Bunyi nun diganti mim, bibir dirapatkan, dengung sekitar 2 harakat.'],
+  idgham_ghunnah:['Idgham Bighunnah','Nun sukun atau tanwin bertemu ya, nun, mim, atau wau di kata yang berbeda.','Dilebur ke huruf berikutnya dengan dengung sekitar 2 harakat.'],
+  idgham_wo_ghunnah:['Idgham Bilaghunnah','Nun sukun atau tanwin bertemu lam atau ra.','Dilebur ke huruf berikutnya tanpa dengung.'],
+  idgham_shafawi:['Idgham Mimi','Mim sukun bertemu mim.','Dilebur dengan dengung sekitar 2 harakat.'],
+  idgham_mutajanisayn:['Idgham Mutajanisain','Dua huruf satu makhraj dengan sifat berbeda; huruf pertama sukun.','Huruf pertama dilebur ke huruf kedua.'],
+  idgham_mutaqaribayn:['Idgham Mutaqaribain','Dua huruf yang makhraj atau sifatnya berdekatan; huruf pertama sukun.','Huruf pertama dilebur ke huruf kedua.'],
+  ghunnah:['Ghunnah','Nun atau mim bertasydid.','Didengungkan sekitar 2 harakat.'],
+  laam_shamsiyah:['Lam Syamsiyah','Lam pada \u201Cal\u201D bertemu huruf syamsiyah.','Lam tidak dibaca; huruf sesudahnya dibaca bertasydid.'],
+  ham_wasl:['Hamzah Wasal','Alif di awal kata yang hanya dibaca saat memulai bacaan.','Saat disambung dengan kata sebelumnya, alif ini tidak dibaca.'],
+  slnt:['Huruf tidak dibaca','Huruf yang ditulis tetapi tidak dilafalkan.','Lewati huruf ini saat membaca.']
+};
+function closeTj(){ const p = $('#tjpop'); if (p) p.remove(); }
+function showTj(el){
+  const m = el.className.match(/tj-([a-z_]+)/);
+  const d = m && DET[m[1]]; if (!d) return;
+  closeTj();
+  const p = document.createElement('div'); p.id = 'tjpop';
+  p.innerHTML = `<div class="card tj-${m[1]}" role="dialog" aria-label="${esc(d[0])}"><div class="ph"><b style="color:var(--c)">${esc(d[0])}</b><button class="ib" id="tjx">Tutup</button></div><div class="ar pa" dir="rtl" lang="ar" style="color:var(--c)">${esc(el.textContent)}</div><p><b>Hukum:</b> ${esc(d[1])}</p><p><b>Cara baca:</b> ${esc(d[2])}</p></div>`;
+  document.body.appendChild(p);
+  $('#tjx', p).onclick = closeTj;
+}
+
+/* ---------- audio ---------- */
+const audio = new Audio();
+audio.preload = 'none';
+const P = { mode:null, i:0, from:0, to:0, rep:1, k:0, loop:false };
+let S = null;            // surah aktif
+const H = { on:false, hide:true };
+
+function clearPlaying(){ document.querySelectorAll('.ayat.playing').forEach(e => e.classList.remove('playing')); }
+function syncButtons(){
+  const all = $('[data-act=all]'); if (all) all.textContent = P.mode === 'all' ? 'Berhenti' : 'Putar semua';
+  const hs = $('[data-act=hstart]'); if (hs) hs.textContent = P.mode === 'hafalan' ? 'Berhenti' : 'Mulai';
+  document.querySelectorAll('[data-act=play]').forEach(b => { b.textContent = (P.mode === 'single' && +b.dataset.i === P.i) ? 'Henti' : 'Putar'; });
+}
+function stopAudio(){ try { audio.pause(); } catch(e){} P.mode = null; clearPlaying(); syncButtons(); }
+function go(){
+  const a = S && S.ayat[P.i];
+  if (!a || !a.au) { toast('Audio ayat ini tidak tersedia.'); stopAudio(); return; }
+  audio.src = a.au;
+  const pr = audio.play(); if (pr && pr.catch) pr.catch(() => { toast('Audio belum bisa diputar. Cek koneksi internet.'); stopAudio(); });
+  clearPlaying();
+  const el = document.getElementById('a' + P.i);
+  if (el) { el.classList.add('playing'); el.scrollIntoView({ block:'center', behavior:'smooth' }); }
+  syncButtons();
+}
+audio.addEventListener('ended', () => {
+  if (!S) return;
+  if (P.mode === 'single') { stopAudio(); return; }
+  if (P.mode === 'all') { if (P.i + 1 < S.ayat.length) { P.i++; go(); } else stopAudio(); return; }
+  if (P.mode === 'hafalan') {
+    P.k++;
+    if (P.k < P.rep) { go(); return; }
+    P.k = 0;
+    if (P.i < P.to) { P.i++; go(); }
+    else if (P.loop) { P.i = P.from; go(); }
+    else stopAudio();
+  }
+});
+audio.addEventListener('error', () => { if (P.mode) { toast('Audio gagal dimuat. Cek koneksi internet.'); stopAudio(); } });
+
+/* ---------- tampilan umum ---------- */
+const header = () => `<header class="top"><a class="brand" href="#/">Zann Qur'an</a><a class="link" href="#/tajwid">Panduan tajwid</a></header>`;
+function showError(msg, retry){
+  app.insertAdjacentHTML('beforeend', `<div class="wrap"><div class="err"><b>Gagal memuat data.</b><p>${esc(msg)}</p><p>Data diambil dari internet saat pertama dibuka, lalu tersimpan di HP. Pastikan online, lalu coba lagi.</p><button class="btn pri" id="retry">Coba lagi</button></div></div>`);
+  $('#retry').onclick = retry;
+}
+
+/* ---------- beranda ---------- */
+async function home(){
+  const last = store.get('last');
+  app.innerHTML = header() + `<main class="wrap">
+    <div class="heroc"><div class="sal" lang="ar">اَلسَّلَامُ عَلَيْكُمْ</div><p>Baca, pahami tajwid, dan hafalkan Al-Qur’an.</p></div>${last ? `<a class="last" href="#/s/${last.n}${last.a ? '/' + last.a : ''}"><small>Lanjutkan membaca</small><b>${esc(last.name)}${last.a ? ' \u00B7 ayat ' + last.a : ''}</b></a>` : ''}
+    <input id="q" class="search" type="search" placeholder="Cari surah: nama atau nomor" aria-label="Cari surah" autocomplete="off">
+    <div id="list" class="list"><p class="muted">Memuat daftar surah\u2026</p></div></main>`;
+  let list;
+  try { list = await loadList(); } catch(e){ $('#list').innerHTML = ''; showError(e.message, home); return; }
+  const draw = f => {
+    const q = (f || '').trim().toLowerCase();
+    const items = list.filter(s => !q || String(s.nomor) === q || s.namaLatin.toLowerCase().includes(q) || (s.arti || '').toLowerCase().includes(q));
+    $('#list').innerHTML = items.length ? items.map(s => `<a class="row" href="#/s/${s.nomor}"><span class="no">${s.nomor}</span><span><span class="nm">${esc(s.namaLatin)}</span><br><span class="sub">${esc(s.arti)} \u00B7 ${s.jumlahAyat} ayat \u00B7 ${esc(s.tempatTurun)}</span></span><span class="arn" lang="ar">${esc(s.nama)}</span></a>`).join('') : '<p class="muted">Surah tidak ditemukan.</p>';
+  };
+  draw('');
+  $('#q').addEventListener('input', e => draw(e.target.value));
+}
+
+/* ---------- pembaca ---------- */
+function applySettings(){
+  const L = $('#ayatList'); if (!L) return;
+  const st = state.settings;
+  L.classList.toggle('notj', !st.tajwid);
+  L.classList.toggle('hide-lat', !st.latin);
+  L.classList.toggle('hide-tr', !st.terjemah);
+  L.classList.toggle('hide-ar', H.on && H.hide);
+  L.style.setProperty('--arsize', st.size + 'px');
+  document.querySelectorAll('[data-act=toggle]').forEach(b => b.setAttribute('aria-pressed', st[b.dataset.k] ? 'true' : 'false'));
+}
+
+function legendHTML(s){
+  const c={};(s.ayat.map(a=>a.tj).join('').match(/class=[a-z_]+(?=>)/g)||[]).forEach(x=>{const k=x.slice(6);c[k]=(c[k]||0)+1;});
+  return Object.keys(c).filter(k=>DET[k]).sort((a,b)=>c[b]-c[a]).map(k=>`<button class="lgc tj-${k}" data-act="focus" data-k="${k}"><i></i>${esc(DET[k][0])} <small>${c[k]}</small></button>`).join('');
+}
+async function reader(n, jump){
+  if (n < 1 || n > 114) { location.hash = '#/'; return; }
+  app.innerHTML = header() + `<main class="wrap"><p class="muted">Memuat surah\u2026</p></main>`;
+  let s;
+  try { s = await loadSurah(n); } catch(e){ showError(e.message, () => reader(n, jump)); return; }
+  S = s; H.on = false;
+  const opts = s.ayat.map((a, i) => `<option value="${i}">${a.n}</option>`).join('');
+  const hasBism = s.nomor !== 1 && s.nomor !== 9;
+  app.innerHTML = header() + `<main class="wrap">
+    <div class="hero"><div class="arn" lang="ar">${esc(s.nama)}</div><h1>${esc(s.namaLatin)}</h1><p>${esc(s.arti)} \u00B7 ${s.jumlahAyat} ayat \u00B7 ${esc(s.tempatTurun)}</p></div>
+    <div class="tools">
+      <button class="chip" data-act="toggle" data-k="tajwid">Tajwid</button>
+      <button class="chip" data-act="toggle" data-k="latin">Latin</button>
+      <button class="chip" data-act="toggle" data-k="terjemah">Terjemah</button>
+      <span class="sz"><button class="chip" data-act="size" data-d="-4" aria-label="Perkecil huruf Arab">A\u2212</button><button class="chip" data-act="size" data-d="4" aria-label="Perbesar huruf Arab">A+</button></span>
+      <button class="btn pri" data-act="all">Putar semua</button>
+      <button class="btn" data-act="hafalan">Hafalan</button>
+      <button class="btn" data-act="quiz">Kuis</button>
+    </div>
+    <p class="muted hint">Ketuk huruf berwarna untuk melihat hukumnya. Ketuk label di bawah untuk menyorot satu hukum saja.</p><div class="lgp">${legendHTML(s)}</div>
+    <section class="hpanel" id="hpanel" hidden>
+      <label>Dari ayat <select id="hFrom">${opts}</select> sampai <select id="hTo">${opts}</select></label>
+      <label>Ulangi tiap ayat <select id="hRep"><option>1</option><option selected>3</option><option>5</option><option>10</option></select> kali</label>
+      <label><input type="checkbox" id="hHide" checked> Sembunyikan Arab (ketuk ayat untuk melihat)</label>
+      <label><input type="checkbox" id="hLoop"> Ulangi terus rentang ini</label>
+      <div><button class="btn pri" data-act="hstart">Mulai</button></div>
+    </section>
+    ${hasBism ? '<div class="bism" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>' : ''}
+    <div id="ayatList">
+      ${s.ayat.map((a, i) => {
+        const arHTML = a.tj ? tajwidHTML(a.tj) : esc(a.ar) + ` <span class="end">${arNum(a.n)}</span>`;
+        return `<article class="ayat" id="a${i}">
+          <div class="meta"><span class="num">${a.n}</span><button class="ib" data-act="play" data-i="${i}">Putar</button><button class="ib" data-act="mark" data-i="${i}">Tandai</button></div>
+          <div class="ar" dir="rtl" lang="ar">${arHTML}</div>
+          <p class="lat">${esc(a.lat)}</p>
+          <p class="tr">${esc(a.id)}</p>
+        </article>`;
+      }).join('')}
+    </div>
+    <nav class="nav"><a class="${n > 1 ? '' : 'off'}" href="#/s/${n - 1}">Sebelumnya</a><a class="${n < 114 ? '' : 'off'}" href="#/s/${n + 1}">Berikutnya</a></nav>
+  </main>`;
+  $('#hTo').value = String(s.ayat.length - 1);
+  applySettings();
+  const jumpEl = jump ? document.getElementById('a' + (s.ayat.findIndex(a => a.n === jump))) : null;
+  if (jumpEl) jumpEl.scrollIntoView({ block:'start' }); else window.scrollTo(0, 0);
+}
+
+/* ---------- kuis ---------- */
+function closeModal(){ const m = $('#modal'); if (m) m.remove(); }
+function quiz(){
+  const A = S.ayat;
+  if (A.length < 3) { toast('Surah ini terlalu pendek untuk kuis. Pilih surah lain.'); return; }
+  stopAudio(); closeModal();
+  const m = document.createElement('div'); m.className = 'modal'; m.id = 'modal';
+  m.addEventListener('click', e => { if (e.target === m) closeModal(); });
+  document.body.appendChild(m);
+  let score = 0, total = 0;
+  const next = () => {
+    let answered = false;
+    const i = Math.floor(Math.random() * (A.length - 1));
+    const ci = i + 1;
+    const others = shuffle(A.map((_, k) => k).filter(k => k !== ci && k !== i)).slice(0, 3);
+    const opts = shuffle([ci].concat(others));
+    m.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="Kuis lanjutkan ayat">
+      <div class="qhead"><b>Kuis: lanjutkan ayat</b><span id="qs">Skor ${score}/${total}</span></div>
+      <p class="muted">Ayat ${A[i].n} berbunyi:</p>
+      <div class="ar qar" dir="rtl" lang="ar">${esc(A[i].ar)}</div>
+      <p class="muted">Ayat berikutnya adalah\u2026</p>
+      <div class="opts">${opts.map(k => `<button class="opt" data-k="${k}"><span class="ar" dir="rtl" lang="ar">${esc(A[k].ar)}</span><span class="lat">${esc(A[k].lat)}</span></button>`).join('')}</div>
+      <div class="qfoot"><button class="btn" id="qclose">Selesai</button><button class="btn pri" id="qnext" hidden>Soal berikutnya</button></div>
+    </div>`;
+    $('#qclose', m).onclick = closeModal;
+    $('#qnext', m).onclick = next;
+    m.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+      if (answered) return; answered = true; total++;
+      const ok = +b.dataset.k === ci;
+      if (ok) score++;
+      b.classList.add(ok ? 'ok' : 'bad');
+      if (!ok) m.querySelector('.opt[data-k="' + ci + '"]').classList.add('ok');
+      $('#qs', m).textContent = 'Skor ' + score + '/' + total;
+      $('#qnext', m).hidden = false;
+    });
+  };
+  next();
+}
+
+/* ---------- panduan tajwid ---------- */
+function guide(){
+  stopAudio(); S = null;
+  const legend = LEG.map(l => `<div class="lg"><div class="ar" lang="ar"><span class="tj tj-${l[0]}">●</span></div><div><b>${esc(l[1])}</b><span>${esc(l[2])}</span></div></div>`).join('');
+  app.innerHTML = header() + `<main class="wrap guide">
+    <div class="hero"><h1>Panduan tajwid</h1><p>Arti warna di layar baca, dan hukum yang perlu dihafal.</p></div>
+    <div class="note">Warna diambil dari data tajwid quran.com. Beberapa hukum tidak diberi warna di data itu (idzhar, ra, lam jalalah, tanda waqaf), jadi dijelaskan di bagian bawah.</div>
+    <h2>Arti warna</h2>
+    <div class="legend">${legend}</div>
+
+    <h2>Hukum nun sukun dan tanwin</h2>
+    <h3>Idzhar Halqi</h3><p>Dibaca jelas, tanpa dengung. Hurufnya: <span class="hr" lang="ar">ء ه ع ح غ خ</span></p>
+    <h3>Idgham Bighunnah</h3><p>Dilebur ke huruf berikutnya dengan dengung. Hurufnya: <span class="hr" lang="ar">ي ن م و</span>. Jika nun dan huruf itu berada dalam satu kata (seperti <span class="hr" lang="ar">دُنْيَا</span>), dibaca idzhar.</p>
+    <h3>Idgham Bilaghunnah</h3><p>Dilebur tanpa dengung. Hurufnya: <span class="hr" lang="ar">ل ر</span></p>
+    <h3>Iqlab</h3><p>Nun sukun/tanwin bertemu <span class="hr" lang="ar">ب</span>: diganti bunyi mim, ditahan dengan dengung.</p>
+    <h3>Ikhfa Haqiqi</h3><p>Dibaca samar dengan dengung. 15 huruf: <span class="hr" lang="ar">ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك</span></p>
+
+    <h2>Hukum mim sukun</h2>
+    <ul><li><b>Ikhfa Syafawi</b>: mim sukun bertemu <span class="hr" lang="ar">ب</span>, dibaca samar dengan dengung.</li>
+    <li><b>Idgham Mimi</b>: mim sukun bertemu <span class="hr" lang="ar">م</span>, dilebur dengan dengung.</li>
+    <li><b>Idzhar Syafawi</b>: mim sukun bertemu huruf lain selain ba dan mim, dibaca jelas. Hati-hati saat bertemu <span class="hr" lang="ar">و</span> dan <span class="hr" lang="ar">ف</span>: jangan disamarkan.</li></ul>
+
+    <h2>Nun dan mim tasydid (ghunnah)</h2>
+    <p>Nun atau mim bertasydid wajib didengungkan sekitar 2 harakat.</p>
+
+    <h2>Idgham antar huruf</h2>
+    <ul><li><b>Mutamatsilain</b>: dua huruf sama, huruf pertama sukun. Contoh: <span class="hr" lang="ar">ٱضْرِب بِّعَصَاكَ</span></li>
+    <li><b>Mutajanisain</b>: satu makhraj, sifat berbeda. Contoh: <span class="hr" lang="ar">ٱرْكَب مَّعَنَا</span></li>
+    <li><b>Mutaqaribain</b>: makhraj berdekatan. Contoh: <span class="hr" lang="ar">قُل رَّبِّ</span></li></ul>
+
+    <h2>Qalqalah</h2>
+    <p>Huruf <span class="hr" lang="ar">ق ط ب ج د</span> yang sukun dipantulkan. Qalqalah <b>sughra</b> di tengah kata, <b>kubra</b> di akhir kata saat berhenti (lebih kuat).</p>
+
+    <h2>Mad (panjang)</h2>
+    <ul><li><b>Thabi\u2019i</b>: 2 harakat, tanpa sebab hamzah atau sukun.</li>
+    <li><b>Wajib Muttashil</b>: mad bertemu hamzah dalam satu kata, 4\u20135 harakat.</li>
+    <li><b>Jaiz Munfashil</b>: mad bertemu hamzah di kata berikutnya, 2, 4, atau 5 harakat.</li>
+    <li><b>Lazim</b>: mad bertemu sukun asli atau tasydid, 6 harakat.</li>
+    <li><b>\u2018Aridh Lissukun</b>: mad sebelum huruf akhir yang disukunkan karena berhenti, 2, 4, atau 6 harakat.</li>
+    <li><b>Layyin</b>: wau atau ya sukun didahului fathah, saat berhenti; 2, 4, atau 6 harakat.</li>
+    <li><b>Badal</b>: hamzah diikuti mad (contoh <span class="hr" lang="ar">ءَامَنُوا</span>), 2 harakat.</li>
+    <li><b>Shilah</b>: ha dhamir yang disambung; shughra 2 harakat, kubra (bertemu hamzah) 4\u20135 harakat.</li>
+    <li><b>\u2018Iwadh</b>: tanwin fathah di akhir ayat saat berhenti dibaca alif, 2 harakat.</li></ul>
+
+    <h2>Lam dan ra</h2>
+    <ul><li><b>Lam Syamsiyah</b>: lam \u201Cal\u201D tidak dibaca, huruf sesudahnya ditasydid. <b>Lam Qamariyah</b>: lam dibaca jelas.</li>
+    <li><b>Lam Jalalah</b> (lafaz Allah): tebal setelah fathah atau dhammah, tipis setelah kasrah.</li>
+    <li><b>Ra tebal</b>: berharakat fathah atau dhammah; atau sukun setelah fathah/dhammah.</li>
+    <li><b>Ra tipis</b>: berharakat kasrah; atau sukun setelah kasrah asli.</li></ul>
+
+    <h2>Huruf tebal (isti\u2019la)</h2>
+    <p>Dibaca tebal (tafkhim): <span class="hr" lang="ar">خ ص ض غ ط ق ظ</span>. Pangkal lidah terangkat ke langit-langit; huruf lain dibaca tipis.</p>
+    <h2>Saktah</h2>
+    <p>Berhenti sejenak sekitar 2 harakat tanpa mengambil napas. Pada riwayat Hafs ada 4 tempat: Al-Kahf 1, Yasin 52, Al-Qiyamah 27, Al-Muthaffifin 14.</p>
+    <h2>Makharijul huruf (tempat keluar huruf)</h2>
+    <ul><li><b>Al-Jauf</b>: rongga mulut, untuk huruf mad.</li><li><b>Al-Halq</b>: tenggorokan, 6 huruf idzhar halqi.</li><li><b>Al-Lisan</b>: lidah, mayoritas huruf.</li><li><b>Asy-Syafatain</b>: dua bibir: ب م و ف.</li><li><b>Al-Khaisyum</b>: rongga hidung, tempat dengung.</li></ul>
+    <h2>Tanda waqaf</h2>
+    <ul><li><span class="hr" lang="ar">م</span> waqaf lazim: wajib berhenti.</li>
+    <li><span class="hr" lang="ar">لا</span> jangan berhenti.</li>
+    <li><span class="hr" lang="ar">ج</span> jaiz: boleh berhenti atau lanjut.</li>
+    <li><span class="hr" lang="ar">قلى</span> lebih baik berhenti. <span class="hr" lang="ar">صلى</span> lebih baik lanjut.</li>
+    <li><span class="hr" lang="ar">∴ ∴</span> muanaqah: berhenti di salah satu titik tiga, tidak di keduanya.</li></ul>
+  </main>`;
+}
+
+/* ---------- tanda & latihan ---------- */
+function tanda(){
+  stopAudio(); S=null;
+  const mk=store.get('marks',[]);
+  app.innerHTML=header()+`<main class="wrap"><div class="hero"><h1>Penanda ayat</h1><p>Ayat yang kamu tandai.</p></div><div class="list">${mk.length?mk.map((m,i)=>`<div class="row" style="grid-template-columns:1fr auto auto"><a class="nm" style="text-decoration:none" href="#/s/${m.n}/${m.a}">${esc(m.name)} \u00B7 ayat ${m.a}</a><a class="ib" href="#/s/${m.n}/${m.a}">Buka</a><button class="ib" data-del="${i}">Hapus</button></div>`).join(''):'<p class="muted">Belum ada. Ketuk \u201CTandai\u201D pada ayat saat membaca.</p>'}</div></main>`;
+  app.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const a=store.get('marks',[]);a.splice(+b.dataset.del,1);store.set('marks',a);tanda();});
+}
+async function latihan(){
+  stopAudio(); S=null;
+  app.innerHTML=header()+`<main class="wrap"><div class="hero"><h1>Latihan tajwid</h1><p>Tebak hukum pada huruf yang disorot.</p></div><div id="lt"><p class="muted">Menyiapkan soal\u2026</p></div></main>`;
+  let s; try{ s=await loadSurah(78+Math.floor(Math.random()*37)); }catch(e){ showError(e.message,latihan); return; }
+  const pool=s.ayat.filter(x=>x.tj), kinds=Object.keys(DET); let score=0,total=0;
+  if(!pool.length){ $('#lt').innerHTML='<p class="muted">Data tajwid belum termuat. Buka tab Latihan lagi saat online.</p>'; return; }
+  const next=()=>{
+    let box,els=[],t=0;
+    do{ box=document.createElement('div'); box.innerHTML=tajwidHTML(pool[Math.floor(Math.random()*pool.length)].tj); els=[...box.querySelectorAll('.tj')].filter(x=>DET[x.className.replace(/.*tj-/,'')]); }while(!els.length&&++t<30);
+    if(!els.length){ $('#lt').innerHTML='<p class="muted">Tidak ada soal. Muat ulang.</p>'; return; }
+    const el=els[Math.floor(Math.random()*els.length)], k=el.className.replace(/.*tj-/,'');
+    box.querySelectorAll('.tj').forEach(x=>{ if(x!==el) x.className=''; }); el.className='mk';
+    const opts=shuffle([k].concat(shuffle(kinds.filter(x=>x!==k)).slice(0,3))); let done=false;
+    $('#lt').innerHTML=`<div class="ar qar" dir="rtl" lang="ar">${box.innerHTML}</div><p class="muted">Hukum tajwid pada huruf yang disorot?</p><div class="opts">${opts.map(o=>`<button class="opt" data-k="${o}">${esc(DET[o][0])}</button>`).join('')}</div><div id="fb"></div><div class="qfoot"><b id="sc">Skor ${score}/${total}</b><button class="btn pri" id="nx" hidden>Soal berikutnya</button></div>`;
+    $('#nx').onclick=next;
+    $('#lt').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ if(done) return; done=true; total++; const ok=b.dataset.k===k; if(ok) score++; b.classList.add(ok?'ok':'bad'); if(!ok) $('#lt').querySelector('.opt[data-k="'+k+'"]').classList.add('ok'); $('#sc').textContent='Skor '+score+'/'+total; $('#fb').innerHTML='<b>'+esc(DET[k][0])+'</b><p>'+esc(DET[k][1])+'</p><p>'+esc(DET[k][2])+'</p>'; $('#nx').hidden=false; });
+  };
+  next();
+}
+
+/* ---------- event ---------- */
+app.addEventListener('click', e => {
+  const ar = e.target.closest('.ar');
+  if (ar && H.on && H.hide) { const art = ar.closest('.ayat'); if (art) { art.classList.toggle('reveal'); return; } }
+  const tjEl = e.target.closest('.tj');
+  if (tjEl && S && state.settings.tajwid) { showTj(tjEl); return; }
+  closeTj();
+  const t = e.target.closest('[data-act]'); if (!t || !S) return;
+  const act = t.dataset.act;
+  if (act === 'toggle') { const k = t.dataset.k; state.settings[k] = !state.settings[k]; store.set('settings', state.settings); applySettings(); }
+  else if (act === 'size') { state.settings.size = Math.max(24, Math.min(56, state.settings.size + (+t.dataset.d))); store.set('settings', state.settings); applySettings(); }
+  else if (act === 'play') {
+    const i = +t.dataset.i;
+    if (P.mode === 'single' && P.i === i) { stopAudio(); return; }
+    stopAudio(); P.mode = 'single'; P.i = i; go();
+  }
+  else if (act === 'all') {
+    if (P.mode === 'all') { stopAudio(); return; }
+    stopAudio(); P.mode = 'all'; P.i = 0; go();
+  }
+  else if (act === 'mark') { const a = S.ayat[+t.dataset.i]; store.set('last', { n:S.nomor, name:S.namaLatin, a:a.n }); const mk=store.get('marks',[]).filter(m=>!(m.n===S.nomor&&m.a===a.n)); mk.unshift({n:S.nomor,name:S.namaLatin,a:a.n}); store.set('marks',mk.slice(0,50)); toast('Ditandai: ' + S.namaLatin + ' ayat ' + a.n); }
+  else if (act === 'hafalan') {
+    H.on = !H.on; $('#hpanel').hidden = !H.on;
+    if (!H.on) stopAudio();
+    document.querySelectorAll('.ayat.reveal').forEach(x => x.classList.remove('reveal'));
+    applySettings();
+  }
+  else if (act === 'hstart') {
+    if (P.mode === 'hafalan') { stopAudio(); return; }
+    let f = +$('#hFrom').value, to = +$('#hTo').value;
+    if (to < f) { const x = f; f = to; to = x; }
+    stopAudio();
+    P.mode = 'hafalan'; P.from = f; P.to = to; P.i = f; P.k = 0; P.rep = +$('#hRep').value; P.loop = $('#hLoop').checked;
+    go();
+  }
+  else if (act === 'quiz') quiz();
+  else if (act === 'focus') { const k=t.dataset.k, L=$('#ayatList'), on=L.dataset.f!==k; L.dataset.f=on?k:''; L.querySelectorAll('.tj').forEach(x=>x.classList.toggle('off',on&&!x.classList.contains('tj-'+k))); document.querySelectorAll('.lgc').forEach(b=>b.classList.toggle('on',on&&b.dataset.k===k)); }
+});
+app.addEventListener('change', e => {
+  if (e.target.id === 'hHide') { H.hide = e.target.checked; applySettings(); }
+});
+
+/* ---------- router ---------- */
+function route(){
+  stopAudio(); closeModal(); closeTj();
+  const h = location.hash;
+  document.querySelectorAll('#tab a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')===(h.indexOf('#/s/')===0?'#/':(h||'#/'))));
+  let m;
+  if ((m = h.match(/^#\/s\/(\d+)(?:\/(\d+))?$/))) reader(+m[1], m[2] ? +m[2] : null);
+  else if (h === '#/tajwid') { guide(); window.scrollTo(0, 0); }
+  else if (h === '#/latihan') { latihan(); window.scrollTo(0, 0); }
+  else if (h === '#/tanda') { tanda(); window.scrollTo(0, 0); }
+  else { S = null; home(); window.scrollTo(0, 0); }
+}
+window.addEventListener('hashchange', route);
+route();
+})();
+</script>
+</body>
+</html>
