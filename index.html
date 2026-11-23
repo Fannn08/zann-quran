@@ -7,9 +7,9 @@
 <title>Zann Qur’an</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--arsize:36px;--ui:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter',system-ui,Roboto,sans-serif;--ar:'Amiri Quran','Scheherazade New','Noto Naskh Arabic',serif;--r:20px}
+:root{--arsize:36px;--ui:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter',system-ui,Roboto,sans-serif;--ar:'Scheherazade New','Amiri Quran','Noto Naskh Arabic',serif;--r:20px}
 [data-theme=midnight]{--bg:#000;--sf:#1C1C1E;--sf2:#2C2C2E;--tx:#fff;--mu:#8E8E93;--ln:rgba(84,84,88,.5);--ac:#34D6A6;--on:#00281C;--gl:rgba(28,28,30,.72);color-scheme:dark}
 [data-theme=emerald]{--bg:#F2F2F7;--sf:#fff;--sf2:#E9E9EE;--tx:#000;--mu:#6C6C70;--ln:rgba(60,60,67,.18);--ac:#0A8F6A;--on:#fff;--gl:rgba(249,249,251,.78);color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -57,7 +57,7 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}
 .pill{height:34px;padding:0 16px;border:0;border-radius:17px;background:var(--sf2);font-weight:600;font-size:14px;color:var(--ac)}
 .pill:active,.chip:active{transform:scale(.96)}
 .ayat.on .pill{background:var(--ac);color:var(--on)}
-.arab{font-family:var(--ar);font-size:var(--arsize);line-height:2.2;text-align:right;direction:rtl;word-spacing:.08em;margin:0}
+.arab{font-family:var(--ar);font-weight:700;font-size:var(--arsize);line-height:2.35;text-align:right;direction:rtl;word-spacing:.08em;margin:0}
 .arab i{font-style:normal;cursor:pointer}
 .wq{font-weight:400;color:var(--ac);cursor:pointer;padding:0 .1em}
 .lat{margin:10px 0 0;color:var(--ac);font-size:14.5px;font-weight:500}
@@ -91,6 +91,8 @@ input[type=range]{width:100%;accent-color:var(--ac);margin:8px 0}
 .sk{height:90px;border-radius:var(--r);background:var(--sf);margin:14px 0;animation:p 1.2s infinite alternate}
 @keyframes u{from{transform:translateY(60px);opacity:0}}@keyframes f{from{opacity:0}}@keyframes p{to{opacity:.4}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.arab i{padding:0 .02em}.hit{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:12px}.big{font-weight:700;line-height:2.1}.acts{display:flex;gap:8px}.sel{height:34px;border:0;border-radius:10px;background:var(--sf2);padding:0 10px;font-size:14px}.lat{font-size:15.5px}
+.an{display:inline-grid;place-items:center;position:relative;min-width:1.6em;height:1.6em;padding:0 .2em;margin:0 .2em;border:.07em solid var(--ac);border-radius:50%;font-size:.52em;line-height:1;color:var(--ac);direction:ltr}.an sup{position:absolute;top:-1.15em;left:-.35em;font-size:1em;color:var(--ac)}.an .sj{left:auto;right:-.5em}.rk{margin-top:12px;padding:9px 12px;border-radius:12px;background:color-mix(in srgb,var(--ac) 14%,transparent);color:var(--ac);font-size:13.5px;font-weight:600}
 </style>
 </head>
 <body>
@@ -105,7 +107,8 @@ const app=$('#app'),barEl=$('#bar');
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const arNum=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 const st={get(k,d){try{const v=localStorage.getItem('zq:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('zq:'+k,JSON.stringify(v))}catch(e){}}};
-const cfg=Object.assign({theme:'midnight',size:36,tajwid:true,latin:true,terjemah:true},st.get('cfg',{}));
+const QR=[['01','Abdullah Al-Juhany'],['02','Abdul Muhsin Al-Qasim'],['03','Abdurrahman as-Sudais'],['04','Ibrahim Al-Dossari'],['05','Misyari Rasyid Al-Afasi']];
+const cfg=Object.assign({theme:'midnight',size:42,qari:'05',rukuStop:false,tajwid:true,latin:true,terjemah:true},st.get('cfg',{}));
 
 /* ---------- referensi: tajwid & waqaf ---------- */
 const TJ=[
@@ -129,7 +132,7 @@ const TJ=[
 ];
 const TJM={};TJ.forEach(t=>TJM[t[0]]=t);
 const css=document.createElement('style');
-css.textContent=TJ.map(t=>'.t-'+t[0]+'{color:'+t[2]+'}#app[data-hl='+t[0]+'] i.tj:not(.t-'+t[0]+'){color:var(--tx);opacity:.3}').join('');
+css.textContent=TJ.map(t=>'.t-'+t[0]+'{color:'+t[2]+'}[data-theme=midnight] .t-'+t[0]+'{color:color-mix(in srgb,'+t[2]+' 62%,#fff)}#app[data-hl='+t[0]+'] i.tj:not(.t-'+t[0]+'){color:var(--tx);opacity:.3}').join('');
 document.head.appendChild(css);
 const WQ={
 '\u06D8':['م','Waqaf Lazim','Wajib berhenti. Jika disambung, makna bisa berubah.'],
@@ -149,16 +152,17 @@ async function loadList(){
  st.set('list',j.data);return j.data;
 }
 async function loadSurah(n){
- const c=st.get('s'+n);if(c)return c;
- const [a,t]=await Promise.all([
+ const c=st.get('v3s'+n);if(c)return c;
+ const [a,t,rk]=await Promise.all([
   getJSON('https://equran.id/api/v2/surat/'+n),
-  getJSON('https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?chapter_number='+n+'&per_page=300').catch(()=>null)
+  getJSON('https://api.quran.com/api/v4/quran/verses/uthmani_tajweed?chapter_number='+n+'&per_page=300').catch(()=>null),
+  getJSON('https://api.quran.com/api/v4/verses/by_chapter/'+n+'?per_page=300').catch(()=>null)
  ]);
- const d=a.data,tv=(t&&t.verses)||[];
+ const d=a.data,tv=(t&&t.verses)||[],rv=(rk&&rk.verses)||[];
  const out={nomor:d.nomor,namaLatin:d.namaLatin,nama:d.nama,arti:d.arti,jumlahAyat:d.jumlahAyat,
   ayat:d.ayat.map((x,i)=>({n:x.nomorAyat,ar:x.teksArab,lat:x.teksLatin,id:x.teksIndonesia,
-   au:(x.audio&&(x.audio['05']||Object.values(x.audio)[0]))||'',tj:(tv[i]&&tv[i].text_uthmani_tajweed)||''}))};
- if(tv.length===out.ayat.length)st.set('s'+n,out);
+   re:rv.length===d.ayat.length&&rv[i].ruku_number!==(rv[i+1]&&rv[i+1].ruku_number),sj:!!(rv[i]&&rv[i].sajdah_type),aus:x.audio||{},au:(x.audio&&(x.audio['05']||Object.values(x.audio)[0]))||'',tj:(tv[i]&&tv[i].text_uthmani_tajweed)||''}))};
+ if(tv.length===out.ayat.length&&rv.length===out.ayat.length)st.set('v3s'+n,out);
  return out;
 }
 function arHTML(raw,useTj){
@@ -171,6 +175,7 @@ function arHTML(raw,useTj){
 }
 
 /* ---------- UI helpers ---------- */
+if(!st.get('v2')){cfg.size=Math.max(cfg.size,42);st.set('v2',1)}
 function applyCfg(){
  document.documentElement.dataset.theme=cfg.theme;
  document.documentElement.style.setProperty('--arsize',cfg.size+'px');
@@ -198,24 +203,37 @@ function openSettings(){
  const d=sheet('<h2>Pengaturan</h2>'+
   '<div class="set"><span>Tema</span><div class="seg"><button data-th="midnight" aria-pressed="'+(cfg.theme==='midnight')+'">Gelap</button><button data-th="emerald" aria-pressed="'+(cfg.theme==='emerald')+'">Terang</button></div></div>'+
   '<div style="padding:12px 0"><div class="set" style="border:0;padding:0"><span>Ukuran teks Arab</span><b id="szv">'+cfg.size+'</b></div>'+
-  '<input type="range" id="sz" min="24" max="60" step="2" value="'+cfg.size+'" aria-label="Ukuran teks Arab"></div>'+
-  sw('tajwid','Warna tajwid')+sw('latin','Teks latin')+sw('terjemah','Terjemahan'));
+  '<input type="range" id="sz" min="24" max="72" step="2" value="'+cfg.size+'" aria-label="Ukuran teks Arab"></div>'+
+  sw('tajwid','Warna tajwid')+sw('latin','Teks latin')+sw('terjemah','Terjemahan')+sw('rukuStop','Berhenti otomatis di akhir ruku’')+'<div class="set"><span>Qari</span><select id="qr" class="sel">'+QR.map(q=>'<option value="'+q[0]+'"'+(cfg.qari===q[0]?' selected':'')+'>'+q[1]+'</option>').join('')+'</select></div>');
  d.onclick=e=>{
   const th=e.target.closest('[data-th]'),k=e.target.closest('[data-k]');
   if(th){cfg.theme=th.dataset.th;applyCfg();d.querySelectorAll('[data-th]').forEach(b=>b.setAttribute('aria-pressed',b===th))}
   if(k){cfg[k.dataset.k]=!cfg[k.dataset.k];k.setAttribute('aria-pressed',cfg[k.dataset.k]);applyCfg()}
  };
  $('#sz',d).oninput=e=>{cfg.size=+e.target.value;$('#szv',d).textContent=cfg.size;applyCfg()};
+ $('#qr',d).onchange=e=>{cfg.qari=e.target.value;applyCfg()};
 }
 function openGuide(){
  const wq=Object.keys(WQ).map(c=>'<div class="gl"><div class="s">'+c+'</div><div><b>'+WQ[c][0]+' · '+WQ[c][1]+'</b><span>'+WQ[c][2]+'</span></div></div>').join('');
  const tj=TJ.map(t=>'<div class="gl"><div class="s" style="color:'+t[2]+'">●</div><div><b>'+t[1]+'</b><span>'+t[3]+' '+t[4]+'</span></div></div>').join('');
  sheet('<h2>Panduan baca</h2><p>Ketuk huruf berwarna atau tanda waqaf di ayat untuk melihat penjelasannya.</p><h3>Tanda waqaf</h3>'+wq+'<h3>Hukum tajwid</h3>'+tj);
 }
+function wordOf(el){
+ const p=el.closest('.arab');let w=[''],hit=-1;
+ p.childNodes.forEach(n=>{
+  if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(x=>{if(!x)return;if(/^\s+$/.test(x))w.push('');else w[w.length-1]+=esc(x)})}
+  else{if(n===el||n.contains(el))hit=w.length-1;w[w.length-1]+=n.outerHTML}
+ });
+ return (w[hit]||el.outerHTML).replace(el.outerHTML,'<u class="hit">'+el.outerHTML+'</u>');
+}
 function showTj(el){
  const m=el.className.match(/t-([a-z_]+)/),t=m&&TJM[m[1]];if(!t)return;
- sheet('<div class="big" style="color:'+t[2]+'">'+esc(el.textContent)+'</div><h2 style="color:'+t[2]+'">'+t[1]+'</h2><p>'+t[3]+'</p><p><b style="color:var(--tx)">Cara baca:</b> '+t[4]+'</p>');
+ const sec=el.closest('.ayat');
+ sheet('<div class="big" dir="rtl" lang="ar">'+wordOf(el)+'</div><h2 style="color:'+t[2]+'">'+t[1]+'</h2><p>'+t[3]+'</p><p><b>Cara baca:</b> '+t[4]+'</p><div class="chips"><button class="chip" data-hlk="'+m[1]+'">Sorot semua hukum ini</button>'+(sec?'<button class="chip" data-playi="'+sec.dataset.i+'">▶ Putar ayat</button>':'')+'</div>');
 }
+function isBm(s,a){return st.get('bm',[]).some(x=>x.s===s&&x.a===a)}
+function toggleBm(s,name,a){let b=st.get('bm',[]);b=isBm(s,a)?b.filter(x=>!(x.s===s&&x.a===a)):b.concat([{s,name,a}]);st.set('bm',b)}
+function bmHTML(){const b=st.get('bm',[]);if(!b.length)return '';return '<p class="hint" style="margin:0 6px 6px">Ayat tersimpan</p><div class="grp">'+b.map(x=>'<button class="row cv" data-h="#/s/'+x.s+'/'+x.a+'"><span class="no">★</span><span><b>'+esc(x.name)+'</b><small>Ayat '+x.a+'</small></span><span></span></button>').join('')+'</div>'}
 function showWq(c){
  const w=WQ[c];if(!w)return;
  sheet('<div class="big" style="color:var(--ac)">'+c+'</div><h2>'+w[0]+' · '+w[1]+'</h2><p>'+w[2]+'</p>');
@@ -231,7 +249,7 @@ async function viewList(){
   app.innerHTML='<div class="msg">Daftar surah gagal dimuat. Periksa koneksi internet.<br><button class="pill" data-a="retry">Coba lagi</button></div>';return}
  const last=st.get('last');
  app.innerHTML=(last?'<button class="resume" data-h="#/s/'+last.s+'/'+last.a+'"><span><small>Lanjutkan membaca</small><b>'+esc(last.name)+' · ayat '+last.a+'</b></span><span class="ar">'+arNum(last.a)+'</span></button>':'')+
-  '<input class="search" id="q" type="search" placeholder="Cari surah, arti, atau nomor" autocomplete="off" aria-label="Cari surah"><div class="grp" id="ls"></div>';
+  bmHTML()+'<input class="search" id="q" type="search" placeholder="Cari surah, arti, atau nomor" autocomplete="off" aria-label="Cari surah"><div class="grp" id="ls"></div>';
  const draw=q=>{
   q=q.trim().toLowerCase();
   const f=LIST.filter(s=>!q||String(s.nomor)===q||s.namaLatin.toLowerCase().includes(q)||s.arti.toLowerCase().includes(q)||s.nama.includes(q)||s.namaLatin.toLowerCase().replace(/[^a-z]/g,'').includes(q.replace(/[^a-z]/g,'')));
@@ -242,7 +260,32 @@ async function viewList(){
 
 /* ---------- pembaca ---------- */
 const audio=new Audio();audio.preload='none';
-let S=null,cur=-1,obs=null;
+let S=null,cur=-1,obs=null,lastI=0,mcOn=false;
+const MC=()=>window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.CapacitorMusicControls;
+function notif(i,pl){
+ if(!S||!S.ayat[i])return;
+ const tr=S.namaLatin+' · Ayat '+S.ayat[i].n,ar=(QR.find(q=>q[0]===cfg.qari)||[0,''])[1];
+ try{if('mediaSession' in navigator){
+  navigator.mediaSession.metadata=new MediaMetadata({title:tr,artist:ar,album:'Zann Qur’an'});
+  navigator.mediaSession.playbackState=pl?'playing':'paused';
+  [['play',()=>audio.play()],['pause',()=>audio.pause()],['previoustrack',()=>play(Math.max(0,lastI-1))],['nexttrack',()=>play(Math.min(S.ayat.length-1,lastI+1))]].forEach(a=>{try{navigator.mediaSession.setActionHandler(a[0],a[1])}catch(e){}});
+ }}catch(e){}
+ const p=MC();if(!p)return;
+ p.create({track:tr,artist:ar,album:'Zann Qur’an',cover:'',isPlaying:pl,dismissable:false,hasPrev:i>0,hasNext:i<S.ayat.length-1,hasClose:true,ticker:tr}).then(()=>{mcOn=true}).catch(()=>{});
+}
+function mcDestroy(){const p=MC();if(p&&mcOn){try{p.destroy();}catch(e){}mcOn=false}}
+function mcEvent(e){
+ const m=e&&(e.message||(e.detail&&e.detail.message));
+ if(m==='music-controls-pause')audio.pause();
+ else if(m==='music-controls-play')audio.play().catch(()=>{});
+ else if(m==='music-controls-next')play(Math.min(S.ayat.length-1,lastI+1));
+ else if(m==='music-controls-previous')play(Math.max(0,lastI-1));
+ else if(m==='music-controls-destroy'){audio.pause();mcOn=false}
+}
+document.addEventListener('controlsNotification',mcEvent);
+setTimeout(()=>{const p=MC();if(p&&p.addListener)try{p.addListener('controlsNotification',mcEvent)}catch(e){}},800);
+audio.addEventListener('play',()=>{const p=MC();if(p&&mcOn)try{p.updateIsPlaying({isPlaying:true})}catch(e){}if('mediaSession' in navigator)navigator.mediaSession.playbackState='playing'});
+audio.addEventListener('pause',()=>{const p=MC();if(p&&mcOn)try{p.updateIsPlaying({isPlaying:false})}catch(e){}if('mediaSession' in navigator)navigator.mediaSession.playbackState='paused'});
 function setPlaying(i){
  cur=i;
  document.querySelectorAll('.ayat').forEach(e=>{
@@ -253,10 +296,10 @@ function setPlaying(i){
 function play(i){
  const a=S.ayat[i];if(!a||!a.au)return;
  if(cur===i&&!audio.paused){audio.pause();setPlaying(-1);return}
- audio.src=a.au;
- audio.play().then(()=>{setPlaying(i);const el=$('#a'+a.n);if(el)el.scrollIntoView({block:'center'})}).catch(()=>{setPlaying(-1)});
+ audio.src=(a.aus&&a.aus[cfg.qari])||a.au;
+ audio.play().then(()=>{setPlaying(i);lastI=i;notif(i,true);const el=$('#a'+a.n);if(el)el.scrollIntoView({block:'center'})}).catch(()=>{setPlaying(-1)});
 }
-audio.onended=()=>{if(S&&cur>=0&&cur+1<S.ayat.length)play(cur+1);else setPlaying(-1)};
+audio.onended=()=>{if(S&&cur>=0&&cur+1<S.ayat.length&&!(cfg.rukuStop&&S.ayat[cur].re))play(cur+1);else{setPlaying(-1);mcDestroy()}};
 audio.onerror=()=>setPlaying(-1);
 
 async function viewSurah(n,a){
@@ -271,9 +314,9 @@ async function viewSurah(n,a){
  const bsm=(S.nomor!==1&&S.nomor!==9)?'<div class="bsm" dir="rtl" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>':'';
  app.innerHTML='<div class="hero"><div class="ar" lang="ar">'+esc(S.nama)+'</div><p>'+esc(S.arti)+' · '+S.jumlahAyat+' ayat</p></div>'+legend(S)+bsm+
   S.ayat.map((x,i)=>'<section class="ayat" id="a'+x.n+'" data-i="'+i+'" data-n="'+x.n+'"><div class="ah"><span class="num">'+x.n+'</span>'+
-   (x.au?'<button class="pill" data-play="'+i+'">Putar</button>':'')+'</div>'+
-   '<p class="arab" dir="rtl" lang="ar">'+arHTML(hasTj&&x.tj?x.tj:x.ar,hasTj&&x.tj)+' <span class="wq" style="cursor:default">'+arNum(x.n)+'</span></p>'+
-   '<p class="lat">'+esc(x.lat)+'</p><p class="idn">'+esc(x.id)+'</p></section>').join('')+
+   '<span class="acts"><button class="pill" data-bm="'+x.n+'">'+(isBm(S.nomor,x.n)?'★':'☆')+'</button>'+(x.au?'<button class="pill" data-play="'+i+'">Putar</button>':'')+'</span>'+'</div>'+
+   '<p class="arab" dir="rtl" lang="ar">'+arHTML(hasTj&&x.tj?x.tj:x.ar,hasTj&&x.tj)+' <span class="an">'+arNum(x.n)+(x.re?'<sup>ع</sup>':'')+(x.sj?'<sup class="sj">۩</sup>':'')+'</span></p>'+
+   '<p class="lat">'+esc(x.lat)+'</p><p class="idn">'+esc(x.id)+'</p>'+(x.re?'<div class="rk">ع Akhir ruku’ — di sini boleh berhenti</div>':'')+(x.sj?'<div class="rk">۩ Ayat sajdah</div>':'')+'</section>').join('')+
   '<div class="nav"><button class="pill" data-h="#/s/'+(n-1)+'"'+(n<=1?' disabled':'')+'>← Sebelumnya</button><button class="pill" data-h="#/s/'+(n+1)+'"'+(n>=114?' disabled':'')+'>Berikutnya →</button></div>';
  if(a&&$('#a'+a)){$('#a'+a).scrollIntoView({block:'start'})}else window.scrollTo(0,0);
  // bookmark otomatis: ayat yang sedang berada di area baca
@@ -363,7 +406,7 @@ function legend(s){
  const c={};s.ayat.forEach(x=>(x.tj.match(/class=([a-z_]+)>/g)||[]).forEach(m=>{const k=m.slice(6,-1);c[k]=(c[k]||0)+1}));
  const tg=[['tajwid','Tajwid'],['latin','Latin'],['terjemah','Terjemah']].map(a=>'<button class="chip" data-tg="'+a[0]+'" aria-pressed="'+cfg[a[0]]+'">'+a[1]+'</button>').join('');
  const lg=Object.keys(c).filter(k=>TJM[k]).map(k=>'<button class="chip" data-chip="'+k+'" aria-pressed="false"><i style="background:'+TJM[k][2]+'"></i>'+TJM[k][1]+' <small>'+c[k]+'</small></button>').join('');
- return '<div class="chips">'+tg+'</div>'+(lg?'<p class="hint">Ketuk huruf berwarna untuk melihat hukumnya. Ketuk label untuk menyorot satu hukum.</p><div class="chips sc">'+lg+'</div>':'');
+ return '<div class="chips"><button class="chip" data-playi="0" style="background:var(--ac);color:var(--on)">▶ Putar semua</button>'+tg+'</div>'+(lg?'<p class="hint">Ketuk huruf berwarna untuk melihat hukumnya. Ketuk label untuk menyorot satu hukum.</p><div class="chips sc">'+lg+'</div>':'');
 }
 
 /* ---------- aksi & router ---------- */
@@ -373,6 +416,9 @@ document.addEventListener('click',e=>{
  const p=t.closest('[data-play]');if(p){play(+p.dataset.play);return}
  const tj=t.closest('i.tj');if(tj){showTj(tj);return}
  const wq=t.closest('b.wq');if(wq){showWq(wq.dataset.w);return}
+ const hk=t.closest('[data-hlk]');if(hk){closeSheet();app.dataset.hl=hk.dataset.hlk;document.querySelectorAll('[data-chip]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.chip===hk.dataset.hlk));return}
+ const pi=t.closest('[data-playi]');if(pi){closeSheet();play(+pi.dataset.playi);return}
+ const bm=t.closest('[data-bm]');if(bm){toggleBm(S.nomor,S.namaLatin,+bm.dataset.bm);bm.textContent=isBm(S.nomor,+bm.dataset.bm)?'★':'☆';return}
  const ti=t.closest('[data-t]');if(ti){showHukum(ti.dataset.t);return}
  const tg=t.closest('[data-tg]');if(tg){cfg[tg.dataset.tg]=!cfg[tg.dataset.tg];tg.setAttribute('aria-pressed',cfg[tg.dataset.tg]);applyCfg();return}
  const cp=t.closest('[data-chip]');if(cp){const k=cp.dataset.chip,on=app.dataset.hl!==k;app.dataset.hl=on?k:'';document.querySelectorAll('[data-chip]').forEach(b=>b.setAttribute('aria-pressed',on&&b===cp));return}
