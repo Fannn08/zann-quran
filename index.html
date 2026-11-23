@@ -7,9 +7,9 @@
 <title>Zann Qur’an</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@500;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--arsize:42px;--ui:'Inter',-apple-system,system-ui,Roboto,sans-serif;--ar:'Scheherazade New','Amiri Quran','Noto Naskh Arabic',serif;--r:16px}
+:root{--arsize:42px;--ui:'Inter',-apple-system,system-ui,Roboto,sans-serif;--ar:'Amiri Quran','Scheherazade New','Noto Naskh Arabic',serif;--r:16px}
 [data-theme=midnight]{--bg:#132B29;--sf:#1B3A38;--sf2:#244846;--tx:#fff;--mu:#A9BDBA;--ln:rgba(255,255,255,.12);--ac:#4FE3C1;--on:#00302A;--tb:#1FA39D;--lat:#8DDCF4;--pb:#000;color-scheme:dark}
 [data-theme=emerald]{--bg:#F3FAF9;--sf:#fff;--sf2:#E3F1EF;--tx:#10201F;--mu:#587370;--ln:rgba(0,60,50,.14);--ac:#0B7F76;--on:#fff;--tb:#1FA39D;--lat:#0A6C98;--pb:#10201F;color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -100,6 +100,16 @@ input[type=range]{width:100%;accent-color:var(--ac)}
 .sk{height:90px;border-radius:var(--r);background:var(--sf);margin:14px 0;animation:p 1.2s infinite alternate}
 @keyframes u{from{transform:translateY(50px);opacity:0}}@keyframes p{to{opacity:.4}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.arab{font-weight:400;-webkit-text-stroke:.55px currentColor;line-height:2.3}
+.ayat{padding:10px 0 18px}
+.hex{border:0;background:none;padding:0;color:inherit;cursor:pointer}.hex.on svg{fill:rgba(79,227,193,.3)}
+.lat{font:600 18px/1.65 'Roboto Mono',ui-monospace,monospace;margin-top:4px}
+.wb{display:inline-flex;align-items:flex-start;gap:2px;vertical-align:middle;margin:0 .25em;padding:0;-webkit-text-stroke:0;font-weight:400;direction:ltr}
+.wb s{font-family:var(--ar);font-size:24px;text-decoration:none;line-height:1}
+.wb em{writing-mode:vertical-rl;font:600 11px/1 var(--ui);font-style:normal;letter-spacing:.08em;padding:5px 2px;border:1.5px solid;white-space:nowrap}
+.wb .j{color:#F2E96B}.wb .t{color:#C98EE8}
+.ara{font-family:var(--ar);color:#3DDC97;-webkit-text-stroke:.3px #3DDC97}
+.mp{padding:6px 10px calc(6px + env(safe-area-inset-bottom))}.mp button{width:38px;height:38px}
 </style>
 </head>
 <body>
@@ -115,7 +125,9 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const arNum=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
 const st={get(k,d){try{const v=localStorage.getItem('zq:'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('zq:'+k,JSON.stringify(v))}catch(e){}}};
 const QR=[['01','Abdullah Al-Juhany'],['02','Abdul Muhsin Al-Qasim'],['03','Abdurrahman as-Sudais'],['04','Ibrahim Al-Dossari'],['05','Misyari Rasyid Al-Afasi']];
-const cfg=Object.assign({theme:'midnight',size:42,qari:'05',rukuStop:false,tajwid:true,latin:true,terjemah:true},st.get('cfg',{}));
+const WL={'\u06D8':['JEDA','j'],'\u06D9':['TERUS','t'],'\u06DA':['JEDA | TR','j'],'\u06D6':['TR > JD','t'],'\u06D7':['JD > TR','j'],'\u06DB':['JD ۛ JD','t'],'\u06DC':['SAKTAH','j']};
+const ARN={madda_normal:'مَدٌّ طَبِيعِيٌّ',madda_permissible:'مَدٌّ جَائِزٌ مُنْفَصِلٌ',madda_obligatory:'مَدٌّ وَاجِبٌ مُتَّصِلٌ',madda_necessary:'مَدٌّ لَازِمٌ',qalaqah:'قَلْقَلَةٌ',ikhfa:'إِخْفَاءٌ حَقِيقِيٌّ',ikhfa_shafawi:'إِخْفَاءٌ شَفَوِيٌّ',iqlab:'إِقْلَابٌ',idgham_ghunnah:'إِدْغَامٌ بِغُنَّةٍ',idgham_wo_ghunnah:'إِدْغَامٌ بِلَا غُنَّةٍ',idgham_shafawi:'إِدْغَامٌ شَفَوِيٌّ',idgham_mutajanisayn:'إِدْغَامٌ مُتَجَانِسَيْنِ',idgham_mutaqaribayn:'إِدْغَامٌ مُتَقَارِبَيْنِ',ghunnah:'غُنَّةٌ',laam_shamsiyah:'لَامٌ شَمْسِيَّةٌ',ham_wasl:'هَمْزَةُ الْوَصْلِ',slnt:'حَرْفٌ لَا يُنْطَقُ'};
+const cfg=Object.assign({theme:'midnight',size:34,qari:'05',rukuStop:false,tajwid:true,latin:true,terjemah:true},st.get('cfg',{}));
 
 /* ---------- referensi: tajwid & waqaf ---------- */
 const TJ=[
@@ -177,12 +189,13 @@ function arHTML(raw,useTj){
  if(useTj)s=s.replace(/<tajweed class=([a-z_]+)>/g,'<i class="tj t-$1">').replace(/<\/tajweed>/g,'</i>').replace(/<span class=end>[^<]*<\/span>/g,'');
  return s.split(/(<[^>]*>)/).map(p=>{
   if(p.charAt(0)==='<')return /^<\/i>$|^<i class="tj t-[a-z_]+">$/.test(p)?p:'';
-  return esc(p).replace(/[\u06D6-\u06DC]/g,c=>'<b class="wq" data-w="'+c+'">'+c+'</b>');
+  return esc(p).replace(/[\u06D6-\u06DC]/g,c=>'<b class="wq wb" data-w="'+c+'"><s class="'+WL[c][1]+'">'+c+'</s><em class="'+WL[c][1]+'">'+WL[c][0]+'</em></b>');
  }).join('');
 }
 
 /* ---------- UI helpers ---------- */
 if(!st.get('v2')){cfg.size=Math.max(cfg.size,42);st.set('v2',1)}
+if(!st.get('v3')){cfg.size=34;st.set('v3',1)}
 function applyCfg(){
  document.documentElement.dataset.theme=cfg.theme;
  document.documentElement.style.setProperty('--arsize',cfg.size+'px');
@@ -220,7 +233,7 @@ function mpLbl(){const l=$('#mpl');if(l&&S&&S.ayat[lastI])l.textContent=S.namaLa
 function showTj(el){
  const m=el.className.match(/t-([a-z_]+)/),t=m&&TJM[m[1]];if(!t)return;
  const sec=el.closest('.ayat');
- pop('<b class="pt">'+t[1]+'</b><p>'+t[3]+'</p><p><b>Cara membaca:</b> '+t[4]+'</p><div class="chips"><button class="chip" data-hlk="'+m[1]+'">Sorot hukum ini</button>'+(sec?'<button class="chip" data-playi="'+sec.dataset.i+'">▶ Putar ayat</button>':'')+'</div>',el);
+ pop('<b class="pt">'+t[1]+(ARN[m[1]]?' ( <span class="ara">'+ARN[m[1]]+'</span> )':'')+'</b><p>'+t[3]+'</p><p><b>Cara membaca:</b> '+t[4]+'</p><div class="chips"><button class="chip" data-hlk="'+m[1]+'">Sorot hukum ini</button>'+(sec?'<button class="chip" data-playi="'+sec.dataset.i+'">▶ Putar ayat</button>':'')+'</div>',el);
 }
 function openSettings(){
  const sw=(k,l)=>'<div class="set"><span>'+l+'</span><button class="sw" data-k="'+k+'" aria-pressed="'+cfg[k]+'" aria-label="'+l+'"></button></div>';
@@ -311,7 +324,7 @@ function setPlaying(i){
  cur=i;
  document.querySelectorAll('.ayat').forEach(e=>{
   const on=+e.dataset.i===i;e.classList.toggle('on',on);
-  const b=$('[data-play]',e);if(b)b.textContent=on?'❚❚':'▶';
+  const b=$('[data-play]',e);if(b)b.classList.toggle('on',on);
  });
 }
 function play(i){
@@ -333,14 +346,14 @@ async function viewSurah(n,a){
  const hasTj=S.ayat.some(x=>x.tj);
  const ar=(S.nomor!==1&&S.nomor!==9)?'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ':S.nama;
  const items=S.ayat.map((x,i)=>'<section class="ayat" id="a'+x.n+'" data-i="'+i+'" data-n="'+x.n+'"><div class="ah"><small class="jh">'+(x.j||'')+'<br>h.'+(x.pg||'')+'</small>'+
-  '<span class="hex"><svg viewBox="0 0 44 44"><path d="M22 2l6 6h8v8l6 6-6 6v8h-8l-6 6-6-6h-8v-8L2 22l6-6V8h8z"/></svg><b>'+x.n+'</b></span>'+
+  '<button class="hex" data-play="'+i+'" aria-label="Putar ayat '+x.n+'"><svg viewBox="0 0 44 44"><path d="M22 2l6 6h8v8l6 6-6 6v8h-8l-6 6-6-6h-8v-8L2 22l6-6V8h8z"/></svg><b>'+x.n+'</b></button>'+
   '<button class="cb" data-bm="'+x.n+'" aria-pressed="'+isBm(S.nomor,x.n)+'" aria-label="Tandai ayat"></button>'+
-  (x.au?'<button class="pl" data-play="'+i+'" aria-label="Putar ayat">▶</button>':'')+'</div>'+
+  '</div>'+
   '<p class="arab" dir="rtl" lang="ar">'+arHTML(hasTj&&x.tj?x.tj:x.ar,hasTj&&x.tj)+' <span class="an">'+arNum(x.n)+(x.re?'<sup>ع</sup>':'')+(x.sj?'<sup class="sj">۩</sup>':'')+'</span></p>'+
   '<p class="lat">'+esc(x.lat).replace(/[āīū]/g,c=>'<u>'+c+'</u>')+'</p><p class="idn">'+esc(x.id)+'</p>'+
   (x.re?'<div class="rk">ع Akhir ruku’ — di sini boleh berhenti</div>':'')+(x.sj?'<div class="rk">۩ Ayat sajdah</div>':'')+'</section>').join('');
  app.innerHTML='<div class="ban"><span>'+(/mad/i.test(S.tempat||'')?'Madaniyah':'Makkiyah')+'</span><b>'+S.nomor+'. '+esc(S.namaLatin)+'</b><span>'+S.jumlahAyat+' Ayat</span></div>'+
-  '<div class="bsr"><button data-h="#/s/'+(n-1)+'"'+(n<=1?' disabled':'')+' aria-label="Surah sebelumnya">‹</button><div class="bsm" dir="rtl" lang="ar">'+ar+'</div><button data-h="#/s/'+(n+1)+'"'+(n>=114?' disabled':'')+' aria-label="Surah berikutnya">›</button></div>'+legend(S)+items;
+  '<div class="bsr"><button data-h="#/s/'+(n-1)+'"'+(n<=1?' disabled':'')+' aria-label="Surah sebelumnya">‹</button><div class="bsm" dir="rtl" lang="ar">'+ar+'</div><button data-h="#/s/'+(n+1)+'"'+(n>=114?' disabled':'')+' aria-label="Surah berikutnya">›</button></div>'+items;
  $('#mp').hidden=false;mpLbl();
  if(a&&$('#a'+a)){$('#a'+a).scrollIntoView({block:'start'})}else window.scrollTo(0,0);
  obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)st.set('last',{s:S.nomor,name:S.namaLatin,a:+e.target.dataset.n})})},{rootMargin:'-20% 0px -65% 0px'});
