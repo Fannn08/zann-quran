@@ -7,86 +7,96 @@
 <title>Zann Qur’an</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--arsize:36px;--ui:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--ar:'Amiri Quran','Scheherazade New','Noto Naskh Arabic',serif;--r:18px}
-[data-theme=midnight]{--bg:#0B0D10;--sf:#14181D;--sf2:#1C2128;--tx:#EEF2F0;--mu:#8B9892;--ln:#232A31;--ac:#5FD4A0;--on:#06251A;color-scheme:dark}
-[data-theme=emerald]{--bg:#EEF4EF;--sf:#FBFDFB;--sf2:#E1ECE5;--tx:#16241E;--mu:#5E7168;--ln:#D3E0D8;--ac:#1F7A5C;--on:#fff;color-scheme:light}
+:root{--arsize:36px;--ui:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter',system-ui,Roboto,sans-serif;--ar:'Amiri Quran','Scheherazade New','Noto Naskh Arabic',serif;--r:20px}
+[data-theme=midnight]{--bg:#000;--sf:#1C1C1E;--sf2:#2C2C2E;--tx:#fff;--mu:#8E8E93;--ln:rgba(84,84,88,.5);--ac:#34D6A6;--on:#00281C;--gl:rgba(28,28,30,.72);color-scheme:dark}
+[data-theme=emerald]{--bg:#F2F2F7;--sf:#fff;--sf2:#E9E9EE;--tx:#000;--mu:#6C6C70;--ln:rgba(60,60,67,.18);--ac:#0A8F6A;--on:#fff;--gl:rgba(249,249,251,.78);color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.6 var(--ui);transition:background .25s,color .25s}
-button,input{font:inherit;color:inherit}
-button{cursor:pointer}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:400 16px/1.45 var(--ui);transition:background .25s}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.wrap{max-width:680px;margin:0 auto;padding:0 18px calc(48px + env(safe-area-inset-bottom))}
-.bar{position:sticky;top:0;z-index:20;padding:calc(10px + env(safe-area-inset-top)) 0 10px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-.bar .in{max-width:680px;margin:0 auto;padding:0 18px;display:flex;align-items:center;gap:8px}
-.bar h1{margin:0;font-size:19px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ib{width:44px;height:44px;border-radius:50%;border:0;background:var(--sf);color:var(--tx);display:grid;place-items:center;font-weight:600;font-size:15px}
-.ib:active,.pill:active,.row:active{transform:scale(.96)}
-.search{width:100%;height:48px;border:0;border-radius:14px;background:var(--sf);padding:0 16px;margin:6px 0 14px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px calc(110px + env(safe-area-inset-bottom))}
+.bar{position:sticky;top:0;z-index:20;padding:env(safe-area-inset-top) 0 0;background:var(--gl);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border-bottom:.5px solid var(--ln)}
+.bar .in{max-width:680px;margin:0 auto;height:48px;padding:0 8px;display:flex;align-items:center}
+.bar h1{margin:0;font-size:17px;font-weight:600;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk,.tb{border:0;background:none;color:var(--ac);font-size:17px;min-width:84px;height:44px;padding:0 8px}
+.bk{text-align:left}.tb{text-align:right}
+.bar.lg{border-bottom-color:transparent}
+.bar.lg .in{display:none}
+.lt{max-width:680px;margin:0 auto;padding:14px 20px 6px;font-size:34px;font-weight:700;letter-spacing:-.02em}
+.search{width:100%;height:40px;border:0;border-radius:12px;background:var(--sf2);padding:0 14px;margin:8px 0 16px;font-size:16px}
 .search::placeholder{color:var(--mu)}
-.resume{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;border:0;border-radius:var(--r);background:var(--ac);color:var(--on);padding:16px 18px;margin-bottom:14px}
-.resume small{display:block;opacity:.75}
-.resume b{font-size:17px}
-.resume .ar{font-family:var(--ar);font-size:26px}
-.row{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:12px 4px;border-bottom:1px solid var(--ln)}
-.row .no{width:38px;height:38px;border-radius:12px;background:var(--sf);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--ac)}
-.row b{display:block;font-weight:600}
-.row small{color:var(--mu)}
+.grp{background:var(--sf);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.row{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:12px 16px;position:relative}
+.row+.row:before{content:"";position:absolute;top:0;left:66px;right:0;border-top:.5px solid var(--ln)}
+.row:active{background:var(--sf2)}
+.row .no{width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--ac) 16%,transparent);display:grid;place-items:center;font-size:14px;font-weight:600;color:var(--ac)}
+.row b{display:block;font-weight:600;font-size:16px}
+.row small{color:var(--mu);font-size:13.5px}
 .row .ar{font-family:var(--ar);font-size:24px;color:var(--ac)}
-.hero{text-align:center;padding:22px 0 10px}
-.hero .ar{font-family:var(--ar);font-size:46px;line-height:1.6;color:var(--ac)}
+.row.cv:after{content:"›";color:var(--mu);font-size:26px;line-height:1}
+.resume{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;border:0;border-radius:var(--r);background:linear-gradient(135deg,var(--ac),color-mix(in srgb,var(--ac) 55%,#0b4a8f));color:var(--on);padding:16px 18px;margin-bottom:16px}
+.resume small{display:block;opacity:.8}.resume b{font-size:17px}.resume .ar{font-family:var(--ar);font-size:28px}
+.hero{text-align:center;padding:20px 0 6px}
+.hero .ar{font-family:var(--ar);font-size:48px;line-height:1.5;color:var(--ac)}
 .hero p{margin:0;color:var(--mu);font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chips.sc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:8px -16px 14px;padding:0 16px}
+.chip{flex:none;display:flex;align-items:center;gap:7px;height:34px;padding:0 14px;border:0;border-radius:17px;background:var(--sf);font-size:14px;font-weight:600;color:var(--mu)}
+.chip i{width:10px;height:10px;border-radius:50%}
+.chip small{color:var(--mu);font-weight:500}
+.chip[aria-pressed=true]{background:var(--ac);color:var(--on)}.chip[aria-pressed=true] small{color:var(--on)}
+.hint{margin:4px 2px 0;color:var(--mu);font-size:13px}
 .bsm{font-family:var(--ar);font-size:calc(var(--arsize)*.85);text-align:center;padding:14px 0 6px;line-height:2}
-.ayat{padding:22px 0;border-bottom:1px solid var(--ln);scroll-margin-top:76px;transition:background .3s}
-.ayat.on{background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ac) 12%,transparent),transparent)}
-.ah{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.num{min-width:34px;height:34px;padding:0 8px;border-radius:17px;background:var(--sf);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--ac)}
-.pill{height:38px;padding:0 16px;border:0;border-radius:19px;background:var(--sf);font-weight:600;font-size:14px;color:var(--ac)}
+.ayat{background:var(--sf);border-radius:var(--r);padding:14px 18px 18px;margin:12px 0;scroll-margin-top:70px;transition:box-shadow .3s}
+.ayat.on{box-shadow:0 0 0 2px var(--ac)}
+.ah{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.num{min-width:32px;height:32px;padding:0 8px;border-radius:16px;background:color-mix(in srgb,var(--ac) 16%,transparent);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--ac)}
+.pill{height:34px;padding:0 16px;border:0;border-radius:17px;background:var(--sf2);font-weight:600;font-size:14px;color:var(--ac)}
+.pill:active,.chip:active{transform:scale(.96)}
 .ayat.on .pill{background:var(--ac);color:var(--on)}
-.arab{font-family:var(--ar);font-size:var(--arsize);line-height:2.15;text-align:right;direction:rtl;word-spacing:.08em;margin:0}
-.arab i{font-style:normal}
+.arab{font-family:var(--ar);font-size:var(--arsize);line-height:2.2;text-align:right;direction:rtl;word-spacing:.08em;margin:0}
+.arab i{font-style:normal;cursor:pointer}
 .wq{font-weight:400;color:var(--ac);cursor:pointer;padding:0 .1em}
-.lat{margin:12px 0 0;color:var(--ac);font-size:14px;font-weight:500}
-.idn{margin:6px 0 0;color:var(--mu)}
+.lat{margin:10px 0 0;color:var(--ac);font-size:14.5px;font-weight:500}
+.idn{margin:6px 0 0;color:var(--mu);font-size:15px}
 body.nolat .lat,body.noidn .idn{display:none}
 body.notj .arab i{color:inherit!important}
-.nav{display:flex;gap:10px;padding-top:24px}
-.nav .pill{flex:1}
-.nav .pill:disabled{opacity:.35}
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;animation:f .2s}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:680px;margin:0 auto;max-height:86vh;overflow:auto;background:var(--sf);border-radius:26px 26px 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));animation:u .25s ease-out}
-.sheet:before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--ln);margin:0 auto 14px}
-.sheet h2{margin:0 0 4px;font-size:18px}
+.nav{display:flex;gap:10px;padding-top:12px}.nav .pill{flex:1;height:44px;border-radius:14px}.nav .pill:disabled{opacity:.35}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;gap:4px;padding:6px 12px calc(6px + env(safe-area-inset-bottom));background:var(--gl);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);border-top:.5px solid var(--ln)}
+.tabs button{flex:1;max-width:160px;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--mu);padding:4px 0}
+.tabs svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs button.on{color:var(--ac)}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40;animation:f .2s}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-width:680px;margin:0 auto;max-height:88vh;overflow:auto;background:var(--sf);border-radius:28px 28px 0 0;padding:8px 22px calc(28px + env(safe-area-inset-bottom));animation:u .3s cubic-bezier(.2,.9,.3,1)}
+.sheet:before{content:"";display:block;width:36px;height:5px;border-radius:3px;background:var(--ln);margin:0 auto 14px}
+.sheet h2{margin:0 0 6px;font-size:21px;letter-spacing:-.01em}
 .sheet h3{margin:20px 0 6px;font-size:15px;color:var(--ac)}
-.sheet p{margin:4px 0;color:var(--mu)}
-.big{font-family:var(--ar);font-size:44px;line-height:1.8;text-align:center}
-.set{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--ln)}
-.seg{display:flex;gap:6px}
-.seg button{border:0;border-radius:12px;padding:9px 14px;background:var(--sf2);font-weight:600;font-size:14px}
-.seg button[aria-pressed=true]{background:var(--ac);color:var(--on)}
+.sheet p{margin:6px 0;color:var(--mu)}.sheet p b{color:var(--tx)}
+.big{font-family:var(--ar);font-size:46px;line-height:1.8;text-align:center;direction:rtl}
+.set{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:.5px solid var(--ln)}
+.seg{display:flex;gap:2px;background:var(--sf2);padding:2px;border-radius:10px}
+.seg button{border:0;border-radius:8px;padding:6px 14px;background:none;font-weight:600;font-size:14px}
+.seg button[aria-pressed=true]{background:var(--sf);box-shadow:0 1px 3px rgba(0,0,0,.25)}
 input[type=range]{width:100%;accent-color:var(--ac);margin:8px 0}
-.sw{width:50px;height:30px;border-radius:15px;border:0;background:var(--sf2);position:relative;flex:none}
-.sw:after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--mu);transition:.2s}
-.sw[aria-pressed=true]{background:var(--ac)}
-.sw[aria-pressed=true]:after{left:23px;background:var(--on)}
-.gl{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}
+.sw{width:51px;height:31px;border-radius:16px;border:0;background:var(--sf2);position:relative;flex:none;transition:.2s}
+.sw:after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.3);transition:.2s}
+.sw[aria-pressed=true]{background:#34C759}.sw[aria-pressed=true]:after{left:22px}
+.gl{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:.5px solid var(--ln)}
 .gl .s{font-family:var(--ar);font-size:26px;text-align:center;line-height:1.6}
-.gl b{display:block;font-weight:600}
-.gl span{font-size:13.5px;color:var(--mu)}
-.msg{text-align:center;padding:60px 10px;color:var(--mu)}
-.msg button{margin-top:14px}
+.gl b{display:block;font-weight:600}.gl span{font-size:13.5px;color:var(--mu)}
+.msg{text-align:center;padding:60px 10px;color:var(--mu)}.msg button{margin-top:14px}
 .sk{height:90px;border-radius:var(--r);background:var(--sf);margin:14px 0;animation:p 1.2s infinite alternate}
-@keyframes u{from{transform:translateY(40px);opacity:0}}
-@keyframes f{from{opacity:0}}
-@keyframes p{to{opacity:.4}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@keyframes u{from{transform:translateY(60px);opacity:0}}@keyframes f{from{opacity:0}}@keyframes p{to{opacity:.4}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div id="bar" class="bar"></div>
 <main id="app" class="wrap"></main>
+<nav class="tabs"><button data-h="#/"><svg viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zM12 6.5V19"/></svg>Qur’an</button><button data-h="#/tajwid"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>Tajwid</button><button data-a="set"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Setelan</button></nav>
 <script>
 (function(){
 'use strict';
@@ -119,7 +129,7 @@ const TJ=[
 ];
 const TJM={};TJ.forEach(t=>TJM[t[0]]=t);
 const css=document.createElement('style');
-css.textContent=TJ.map(t=>'.t-'+t[0]+'{color:'+t[2]+'}').join('');
+css.textContent=TJ.map(t=>'.t-'+t[0]+'{color:'+t[2]+'}#app[data-hl='+t[0]+'] i.tj:not(.t-'+t[0]+'){color:var(--tx);opacity:.3}').join('');
 document.head.appendChild(css);
 const WQ={
 '\u06D8':['م','Waqaf Lazim','Wajib berhenti. Jika disambung, makna bisa berubah.'],
@@ -164,7 +174,7 @@ function arHTML(raw,useTj){
 function applyCfg(){
  document.documentElement.dataset.theme=cfg.theme;
  document.documentElement.style.setProperty('--arsize',cfg.size+'px');
- $('#tc').content=cfg.theme==='midnight'?'#0B0D10':'#EEF4EF';
+ $('#tc').content=cfg.theme==='midnight'?'#000000':'#F2F2F7';
  document.body.classList.toggle('notj',!cfg.tajwid);
  document.body.classList.toggle('nolat',!cfg.latin);
  document.body.classList.toggle('noidn',!cfg.terjemah);
@@ -179,15 +189,14 @@ function sheet(html){
  $('.scrim',d).onclick=closeSheet;
  return d;
 }
-function setBar(title,back){
- barEl.innerHTML='<div class="in">'+(back?'<button class="ib" data-a="back" aria-label="Kembali">←</button>':'')+
-  '<h1>'+esc(title)+'</h1><button class="ib" data-a="guide" aria-label="Panduan tajwid dan waqaf">?</button>'+
-  '<button class="ib" data-a="set" aria-label="Pengaturan">Aa</button></div>';
+function setBar(title,back,large){
+ barEl.className='bar'+(large?' lg':'');
+ barEl.innerHTML=large?'<div class="lt">'+esc(title)+'</div>':'<div class="in"><button class="bk" data-a="back">‹ Kembali</button><h1>'+esc(title)+'</h1><button class="tb" data-a="guide">Panduan</button></div>';
 }
 function openSettings(){
  const sw=(k,l)=>'<div class="set"><span>'+l+'</span><button class="sw" data-k="'+k+'" aria-pressed="'+cfg[k]+'" aria-label="'+l+'"></button></div>';
  const d=sheet('<h2>Pengaturan</h2>'+
-  '<div class="set"><span>Tema</span><div class="seg"><button data-th="midnight" aria-pressed="'+(cfg.theme==='midnight')+'">Midnight Black</button><button data-th="emerald" aria-pressed="'+(cfg.theme==='emerald')+'">Soft Emerald</button></div></div>'+
+  '<div class="set"><span>Tema</span><div class="seg"><button data-th="midnight" aria-pressed="'+(cfg.theme==='midnight')+'">Gelap</button><button data-th="emerald" aria-pressed="'+(cfg.theme==='emerald')+'">Terang</button></div></div>'+
   '<div style="padding:12px 0"><div class="set" style="border:0;padding:0"><span>Ukuran teks Arab</span><b id="szv">'+cfg.size+'</b></div>'+
   '<input type="range" id="sz" min="24" max="60" step="2" value="'+cfg.size+'" aria-label="Ukuran teks Arab"></div>'+
   sw('tajwid','Warna tajwid')+sw('latin','Teks latin')+sw('terjemah','Terjemahan'));
@@ -216,13 +225,13 @@ function showWq(c){
 let LIST=[];
 async function viewList(){
  audio.pause();setPlaying(-1);
- setBar('Zann Qur’an',false);
+ setBar('Zann Qur’an',false,true);
  app.innerHTML='<div class="sk"></div><div class="sk"></div><div class="sk"></div>';
  try{LIST=await loadList()}catch(e){
   app.innerHTML='<div class="msg">Daftar surah gagal dimuat. Periksa koneksi internet.<br><button class="pill" data-a="retry">Coba lagi</button></div>';return}
  const last=st.get('last');
  app.innerHTML=(last?'<button class="resume" data-h="#/s/'+last.s+'/'+last.a+'"><span><small>Lanjutkan membaca</small><b>'+esc(last.name)+' · ayat '+last.a+'</b></span><span class="ar">'+arNum(last.a)+'</span></button>':'')+
-  '<input class="search" id="q" type="search" placeholder="Cari surah, arti, atau nomor" autocomplete="off" aria-label="Cari surah"><div id="ls"></div>';
+  '<input class="search" id="q" type="search" placeholder="Cari surah, arti, atau nomor" autocomplete="off" aria-label="Cari surah"><div class="grp" id="ls"></div>';
  const draw=q=>{
   q=q.trim().toLowerCase();
   const f=LIST.filter(s=>!q||String(s.nomor)===q||s.namaLatin.toLowerCase().includes(q)||s.arti.toLowerCase().includes(q)||s.nama.includes(q)||s.namaLatin.toLowerCase().replace(/[^a-z]/g,'').includes(q.replace(/[^a-z]/g,'')));
@@ -253,14 +262,14 @@ audio.onerror=()=>setPlaying(-1);
 async function viewSurah(n,a){
  audio.pause();setPlaying(-1);
  if(obs)obs.disconnect();
- setBar('Memuat…',true);
+ app.dataset.hl='';setBar('Memuat…',true);
  app.innerHTML='<div class="sk"></div><div class="sk"></div><div class="sk"></div>';
  try{S=await loadSurah(n)}catch(e){
   app.innerHTML='<div class="msg">Surah gagal dimuat. Periksa koneksi internet.<br><button class="pill" data-a="retry">Coba lagi</button></div>';return}
  setBar(S.namaLatin,true);
  const hasTj=S.ayat.some(x=>x.tj);
  const bsm=(S.nomor!==1&&S.nomor!==9)?'<div class="bsm" dir="rtl" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>':'';
- app.innerHTML='<div class="hero"><div class="ar" lang="ar">'+esc(S.nama)+'</div><p>'+esc(S.arti)+' · '+S.jumlahAyat+' ayat</p></div>'+bsm+
+ app.innerHTML='<div class="hero"><div class="ar" lang="ar">'+esc(S.nama)+'</div><p>'+esc(S.arti)+' · '+S.jumlahAyat+' ayat</p></div>'+legend(S)+bsm+
   S.ayat.map((x,i)=>'<section class="ayat" id="a'+x.n+'" data-i="'+i+'" data-n="'+x.n+'"><div class="ah"><span class="num">'+x.n+'</span>'+
    (x.au?'<button class="pill" data-play="'+i+'">Putar</button>':'')+'</div>'+
    '<p class="arab" dir="rtl" lang="ar">'+arHTML(hasTj&&x.tj?x.tj:x.ar,hasTj&&x.tj)+' <span class="wq" style="cursor:default">'+arNum(x.n)+'</span></p>'+
@@ -274,6 +283,89 @@ async function viewSurah(n,a){
  document.querySelectorAll('.ayat').forEach(e=>obs.observe(e));
 }
 
+/* ---------- Ilmu Tajwid lengkap ---------- */
+const CH=[
+['Hukum Nun Sukun (نْ) dan Tanwin',[
+['Izhar Halqi','Nun sukun atau tanwin bertemu huruf halq: ء ه ع ح غ خ. Dibaca jelas tanpa dengung.','مِنْ هَادٍ'],
+['Idgham Bighunnah','Bertemu ي ن م و di kata berikutnya. Dilebur dengan dengung 2 harakat.','مَنْ يَقُولُ'],
+['Idgham Bilaghunnah','Bertemu ل atau ر. Dilebur tanpa dengung.','مِنْ رَبِّهِمْ'],
+['Iqlab','Bertemu ب. Bunyi nun diganti mim samar, dengung 2 harakat.','مِنْ بَعْدِ'],
+['Ikhfa Haqiqi','Bertemu 15 huruf: ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك. Dibaca samar dengan dengung 2 harakat.','مِنْ قَبْلُ']]],
+['Hukum Mim Sukun (مْ)',[
+['Ikhfa Syafawi','Mim sukun bertemu ب. Dibaca samar dengan dengung, bibir dirapatkan ringan.','تَرْمِيهِم بِحِجَارَةٍ'],
+['Idgham Mimi','Mim sukun bertemu م. Dilebur dengan dengung 2 harakat.','لَهُم مَّا'],
+['Izhar Syafawi','Mim sukun bertemu selain م dan ب. Dibaca jelas tanpa dengung.','هُمْ فِيهَا']]],
+['Hukum Mim dan Nun Tasydid',[
+['Ghunnah Musyaddadah','Nun atau mim bertasydid. Didengungkan 2 harakat.','إِنَّ  ثُمَّ']]],
+['Macam-Macam Idghom',[
+['Idgham Mutamatsilain','Dua huruf sama makhraj dan sifat, yang pertama sukun. Huruf pertama dilebur.','اضْرِب بِّعَصَاكَ'],
+['Idgham Mutajanisain','Dua huruf satu makhraj tetapi sifat berbeda, yang pertama sukun.','قَد تَّبَيَّنَ'],
+['Idgham Mutaqaribain','Dua huruf yang makhraj atau sifatnya berdekatan, yang pertama sukun.','نَخْلُقكُّم']]],
+['Hukum Lam Ta’rif',[
+['Lam Syamsiyah','Lam “al” bertemu ت ث د ذ ر ز س ش ص ض ط ظ ل ن. Lam tidak dibaca, huruf sesudahnya bertasydid.','الشَّمْسُ'],
+['Lam Qamariyah','Lam “al” bertemu ا ب ج ح خ ع غ ف ق ك م و ه ي. Lam dibaca jelas.','الْقَمَرُ']]],
+['Tipis dan Tebal',[
+['Huruf Isti’la','ص ض ط ظ خ غ ق selalu dibaca tebal (tafkhim).','الصِّرَاطَ'],
+['Ra Tebal','Ra berharakat fathah atau dhammah, atau ra sukun didahului fathah atau dhammah.','رَبِّ  الْقُرْآنَ'],
+['Ra Tipis','Ra berharakat kasrah, atau ra sukun didahului kasrah.','رِزْقًا'],
+['Lafzh Allah Tebal','Didahului fathah atau dhammah, lam dibaca tebal.','قَالَ ٱللَّهُ'],
+['Lafzh Allah Tipis','Didahului kasrah, lam dibaca tipis.','بِسْمِ ٱللَّهِ']]],
+['Lam Sukun pada Kata Kerja (فِعْل)',[
+['Izhar','Lam sukun pada fi’il dibaca jelas bila bertemu selain ل dan ر.','أَلْقَى'],
+['Idgham','Lam sukun fi’il bertemu ل atau ر. Lam dilebur ke huruf sesudahnya.','قُلْ رَبِّ']]],
+['Qolqolah (قَلْقَلَة)',[
+['Qolqolah Sughra','Huruf ق ط ب ج د sukun di tengah kata. Memantul ringan.','يَجْعَلُونَ'],
+['Qolqolah Kubra','Huruf qolqolah di akhir kata saat waqaf. Memantul lebih kuat.','ٱلْفَلَقْ']]],
+['Ha’ Dlomir',[
+['Ha’ Dlomir (هُ / هِ)','Ha kata ganti yang diapit huruf hidup dibaca panjang 2 harakat. Bila didahului atau diikuti huruf mati, dibaca pendek.','إِنَّهُۥ كَانَ']]],
+['Hukum Bacaan Panjang atau Mad (مَدْ)',[
+['Mad Thabi’i','Huruf mad (ا و ي) tanpa hamzah atau sukun sesudahnya. 2 harakat.','قَالَ'],
+['Mad Wajib Muttashil','Mad thabi’i bertemu hamzah dalam satu kata. 4–5 harakat.','جَاءَ'],
+['Mad Jaiz Munfashil','Mad thabi’i bertemu hamzah di kata berikutnya. 2, 4, atau 5 harakat.','بِمَا أُنزِلَ'],
+['Mad Shilah Qashirah','Ha dlomir diapit huruf hidup, sesudahnya bukan hamzah. 2 harakat.','بِهِۦ'],
+['Mad Shilah Thawilah','Ha dlomir diapit huruf hidup, sesudahnya hamzah. 4–5 harakat.','لَهُۥٓ أَخٌ'],
+['Mad ‘Iwadh','Fathatain di akhir kata saat waqaf, dibaca alif. 2 harakat.','عَلِيمًا'],
+['Mad Badal','Hamzah diikuti huruf mad dalam satu kata. 2 harakat.','آمَنُوا'],
+['Mad ‘Aridh Lissukun','Mad thabi’i sebelum huruf akhir yang disukunkan saat waqaf. 2, 4, atau 6 harakat.','نَسْتَعِينُ'],
+['Mad Liin','Wau atau ya sukun didahului fathah, sebelum huruf akhir yang diwaqafkan. 2, 4, atau 6 harakat.','قُرَيْشٍ'],
+['Mad Lazim Kilmi Mutsaqqal','Mad bertemu huruf bertasydid dalam satu kata. 6 harakat.','الضَّالِّينَ'],
+['Mad Lazim Kilmi Mukhaffaf','Mad bertemu sukun asli tanpa tasydid dalam satu kata. 6 harakat.','آلْآنَ'],
+['Mad Lazim Harfi Mutsaqqal','Huruf pembuka surah yang bertemu tasydid. 6 harakat.','الٓمٓ'],
+['Mad Lazim Harfi Mukhaffaf','Huruf pembuka surah dibaca panjang tanpa tasydid. 6 harakat.','قٓ  نٓ'],
+['Mad Farq','Hamzah istifham bertemu hamzah wasal, dipanjangkan untuk membedakan tanya dan berita. 6 harakat.','ءَآلذَّكَرَيْنِ'],
+['Mad Tamkin','Ya bertasydid bertemu ya sukun. Dibaca jelas, sekitar 2 harakat.','حُيِّيتُمْ'],
+['Mad Ta’zhim','Mad pada lafaz tauhid untuk mengagungkan, dikenal pada riwayat tertentu.','لَا إِلَٰهَ إِلَّا ٱللَّهُ']]],
+['Waqof (وَقْف)',[
+['Akhir kalimat berupa huruf sukun','Cukup berhenti pada huruf sukun itu tanpa perubahan.','نَسْتَعِينْ'],
+['Akhir kalimat berharokat Fathah, Kasroh, Kasrotain, Dlomma, Dlommatain','Harakat dimatikan (disukunkan). Kasrotain dan dlommatain hilang.','الرَّحِيمِ ← الرَّحِيمْ'],
+['Akhir kalimat berupa Ta’ Marbuthoh','Dibaca ha sukun saat waqaf.','رَحْمَةٌ ← رَحْمَهْ'],
+['Akhir kalimat didahului huruf mati','Disukunkan saja. Tidak ada tambahan bacaan.','بَعْدُ ← بَعْدْ'],
+['Akhir kalimat didahului Mad atau Mad Layyin','Disukunkan; panjangnya mengikuti Mad ‘Aridh Lissukun (2, 4, atau 6 harakat).','يَعْلَمُونَ ← يَعْلَمُونْ'],
+['Akhir kalimat berharokat Fathatain, Fathah Tegak, Fathah bertemu Alif','Fathatain diganti alif panjang 2 harakat. Fathah dibaca sukun.','عَلِيمًا ← عَلِيمَا'],
+['Akhir kalimat Wau Sukun didahului Dlommah, atau Ya’ Sukun didahului Kasroh','Dibaca mad sukun; panjang mengikuti Mad ‘Aridh Lissukun.','يَقُولُ ← يَقُولْ'],
+['Tanda-Tanda Waqaf','مـ wajib berhenti · لا jangan berhenti · ج boleh berhenti atau lanjut · صلى lebih baik lanjut · قلى lebih baik berhenti · ۛ ۛ berhenti di salah satu · س saktah (berhenti sejenak tanpa napas).','']]]
+];
+function viewTajwid(n){
+ audio.pause();setPlaying(-1);if(obs)obs.disconnect();
+ if(!n){setBar('Ilmu Tajwid',false,true);
+  app.innerHTML='<button class="resume" data-a="guide"><span><small>Legenda</small><b>Warna tajwid dan tanda waqaf</b></span><span class="ar">ۖ</span></button><div class="grp">'+
+   CH.map((c,i)=>'<button class="row cv" data-h="#/tajwid/'+(i+1)+'"><span class="no">'+(i+1)+'</span><span><b>'+esc(c[0])+'</b><small>'+c[1].length+' Hukum</small></span><span></span></button>').join('')+'</div>';
+  return}
+ const c=CH[n-1];setBar(c[0].replace(/\s*\(.*$/,''),true);
+ app.innerHTML='<div class="grp" style="margin-top:16px">'+c[1].map((h,j)=>'<button class="row cv" data-t="'+n+'-'+j+'"><span class="no">'+(j+1)+'</span><span><b>'+esc(h[0])+'</b></span><span></span></button>').join('')+'</div>';
+ window.scrollTo(0,0);
+}
+function showHukum(k){
+ const [i,j]=k.split('-'),h=CH[i-1][1][j];
+ sheet((h[2]?'<div class="big" style="color:var(--ac)">'+esc(h[2])+'</div>':'')+'<h2>'+esc(h[0])+'</h2><p>'+esc(h[1])+'</p>');
+}
+function legend(s){
+ const c={};s.ayat.forEach(x=>(x.tj.match(/class=([a-z_]+)>/g)||[]).forEach(m=>{const k=m.slice(6,-1);c[k]=(c[k]||0)+1}));
+ const tg=[['tajwid','Tajwid'],['latin','Latin'],['terjemah','Terjemah']].map(a=>'<button class="chip" data-tg="'+a[0]+'" aria-pressed="'+cfg[a[0]]+'">'+a[1]+'</button>').join('');
+ const lg=Object.keys(c).filter(k=>TJM[k]).map(k=>'<button class="chip" data-chip="'+k+'" aria-pressed="false"><i style="background:'+TJM[k][2]+'"></i>'+TJM[k][1]+' <small>'+c[k]+'</small></button>').join('');
+ return '<div class="chips">'+tg+'</div>'+(lg?'<p class="hint">Ketuk huruf berwarna untuk melihat hukumnya. Ketuk label untuk menyorot satu hukum.</p><div class="chips sc">'+lg+'</div>':'');
+}
+
 /* ---------- aksi & router ---------- */
 document.addEventListener('click',e=>{
  const t=e.target;
@@ -281,9 +373,12 @@ document.addEventListener('click',e=>{
  const p=t.closest('[data-play]');if(p){play(+p.dataset.play);return}
  const tj=t.closest('i.tj');if(tj){showTj(tj);return}
  const wq=t.closest('b.wq');if(wq){showWq(wq.dataset.w);return}
+ const ti=t.closest('[data-t]');if(ti){showHukum(ti.dataset.t);return}
+ const tg=t.closest('[data-tg]');if(tg){cfg[tg.dataset.tg]=!cfg[tg.dataset.tg];tg.setAttribute('aria-pressed',cfg[tg.dataset.tg]);applyCfg();return}
+ const cp=t.closest('[data-chip]');if(cp){const k=cp.dataset.chip,on=app.dataset.hl!==k;app.dataset.hl=on?k:'';document.querySelectorAll('[data-chip]').forEach(b=>b.setAttribute('aria-pressed',on&&b===cp));return}
  const ac=t.closest('[data-a]');if(!ac)return;
  const a=ac.dataset.a;
- if(a==='back')location.hash='#/';
+ if(a==='back')location.hash=/^#\/tajwid\/\d/.test(location.hash)?'#/tajwid':'#/';
  else if(a==='set')openSettings();
  else if(a==='guide')openGuide();
  else if(a==='retry')route();
@@ -291,8 +386,10 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 function route(){
  closeSheet();
- const m=location.hash.match(/^#\/s\/(\d+)(?:\/(\d+))?$/);
- if(m&&+m[1]>=1&&+m[1]<=114)viewSurah(+m[1],m[2]?+m[2]:0);else viewList();
+ const h=location.hash,tj=h.match(/^#\/tajwid(?:\/(\d+))?$/),m=h.match(/^#\/s\/(\d+)(?:\/(\d+))?$/);
+ document.querySelectorAll('.tabs [data-h]').forEach(b=>b.classList.toggle('on',(b.dataset.h==='#/tajwid')===!!tj));
+ if(tj&&(!tj[1]||(+tj[1]>=1&&+tj[1]<=CH.length)))viewTajwid(tj[1]?+tj[1]:0);
+ else if(m&&+m[1]>=1&&+m[1]<=114)viewSurah(+m[1],m[2]?+m[2]:0);else viewList();
 }
 window.addEventListener('hashchange',route);
 applyCfg();route();
